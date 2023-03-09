@@ -1,31 +1,26 @@
 package dogbook.controller;
 
-import com.auth0.jwt.interfaces.Claim;
 import dogbook.model.User;
 import dogbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@CrossOrigin
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/v1/users")
-    public ResponseEntity<User> createUser(@RequestAttribute Map<String, Claim> claims, @RequestBody User user) {
-        if(!claims.containsKey("role") || !claims.get("role").asString().equals("next-server")){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
 
+    @PostMapping("/api/v1/users")
+    @PreAuthorize("hasAuthority('ROLE_next-server')")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userService.createUser(user);
         if (savedUser != null) {
             return ResponseEntity.created(URI.create("/api/v1/users/" + savedUser.getId())).body(savedUser);
@@ -35,12 +30,9 @@ public class UserController {
     }
 
     @PutMapping("/api/v1/users/{id}")
-    public ResponseEntity<User> updateUser(@RequestAttribute Map<String, Claim> claims, @PathVariable Integer id, @RequestBody User user){
-        if(!claims.containsKey("userId") || claims.get("userId").asInt() != id || user.getId() != id){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        User savedUser = userService.createUser(user);
+    @PreAuthorize("@authenticatedUserService.hasId(#id) or hasAuthority('ROLE_next-server')")
+    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user){
+        User savedUser = userService.updateUser(user);
         if(savedUser != null){
             return ResponseEntity.ok(savedUser);
         } else {

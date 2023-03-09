@@ -1,19 +1,17 @@
 package dogbook.controller;
 
-import com.auth0.jwt.interfaces.Claim;
 import dogbook.model.Provider;
 import dogbook.model.User;
 import dogbook.service.ProviderService;
 import dogbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -25,11 +23,8 @@ public class ProviderController {
     private ProviderService providerService;
 
     @PostMapping("/api/v1/users/{id}/providers")
-    public ResponseEntity<Provider> createUser(@RequestAttribute Map<String, Claim> claims, @PathVariable Integer id, @RequestBody Provider provider) {
-        if(!claims.containsKey("role") || !claims.get("role").asString().equals("next-server")){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    @PreAuthorize("hasAuthority('ROLE_next-server')")
+    public ResponseEntity<Provider> createUser(@PathVariable Integer id, @RequestBody Provider provider) {
         Optional<User> user = userService.getUserById(id);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -47,6 +42,7 @@ public class ProviderController {
     }
 
     @GetMapping("/api/v1/users/{id}/providers")
+    @PreAuthorize("hasAuthority('ROLE_next-server')")
     public ResponseEntity<List<Provider>> getProviders(@PathVariable Integer id){
         Optional<User> user = userService.getUserById(id);
         if (user.isEmpty()) {
