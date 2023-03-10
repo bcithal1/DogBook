@@ -76,12 +76,6 @@ EVENT_INVITE{
     number event_id fk
 }
 
-EVENT_INVITE{
-    number host_id fk
-    number guest_id fk
-    number event_id fk
-}
-
 GUEST_LIST{
     number event_id fk
     number user_id fk
