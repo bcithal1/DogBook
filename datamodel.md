@@ -63,8 +63,6 @@ POST{
     number author_id fk
     number comment_id
     number view_level
-    number like_count
-    number comment_count
     string message
     date date_time
 }
@@ -119,7 +117,6 @@ USER{
     string first_name
     string last_name
     string email
-    string address
     string phoneNumber
     URL profile_photo
     date date_of_birth
