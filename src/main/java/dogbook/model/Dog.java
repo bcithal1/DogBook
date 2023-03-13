@@ -1,6 +1,11 @@
 package dogbook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dogbook.service.implementation.AccessLevel;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Dog {
@@ -8,8 +13,6 @@ public class Dog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
-    private Integer userId;
     @Column
     private String name;
     @Column
@@ -26,6 +29,10 @@ public class Dog {
     private Boolean altered;
     @Column
     private Integer weightLbs;
+    @Column
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "dogId", updatable = false, insertable = false)
+    private List<DogOwner> owners;
 
     public Integer getId() {
         return id;
@@ -33,14 +40,6 @@ public class Dog {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getName() {
@@ -105,5 +104,27 @@ public class Dog {
 
     public void setWeightLbs(Integer weightLbs) {
         this.weightLbs = weightLbs;
+    }
+
+    public List<DogOwner> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<DogOwner> owners) {
+        this.owners = owners;
+    }
+
+    @JsonIgnore
+    public Integer getPrimaryOwnerId(){
+        // NOTE(Trystan): We are guaranteed to have a primary owner per the implementation of the dog creation.
+        return this.owners.stream()
+                .filter(owner -> owner.getAccessLevel() == AccessLevel.PRIMARY_OWNER)
+                .findFirst().get().getUserId();
+    }
+
+    public Optional<DogOwner> getOwnerFromOwnerId(Integer ownerId) {
+        return this.owners.stream()
+                .filter(owner -> owner.getUserId() == ownerId)
+                .findFirst();
     }
 }
