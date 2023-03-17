@@ -1,4 +1,4 @@
-package dogbook.service.implementation;
+package dogbook.enums;
 
 public enum AccessLevel {
     PRIMARY_OWNER,
