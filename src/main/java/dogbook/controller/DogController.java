@@ -1,5 +1,6 @@
 package dogbook.controller;
 
+import dogbook.model.breedResponse.BreedResponse;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
 import dogbook.model.User;
@@ -112,5 +113,10 @@ public class DogController {
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/v1/breeds")
+    public ResponseEntity<BreedResponse> getBreedList(){
+        return ResponseEntity.ok(dogService.getBreedListResponse());
     }
 }

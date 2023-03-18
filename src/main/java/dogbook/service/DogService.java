@@ -1,5 +1,6 @@
 package dogbook.service;
 
+import dogbook.model.breedResponse.BreedResponse;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
 
@@ -13,6 +14,7 @@ public interface DogService {
     Dog createDog(Dog dog, DogOwner dogOwner);
     Dog updateDog(Dog dog);
     void deleteDog(Integer id);
+    public BreedResponse getBreedListResponse();
 
 
 
