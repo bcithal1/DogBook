@@ -3,12 +3,14 @@ package dogbook.controller;
 import dogbook.model.User;
 import dogbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,7 +25,8 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userService.createUser(user);
         if (savedUser != null) {
-            return ResponseEntity.created(URI.create("/api/v1/users/" + savedUser.getId())).body(savedUser);
+//            return ResponseEntity.created(URI.create("/api/v1/users/" + savedUser.getId())).body(savedUser);
+            return ResponseEntity.ok(savedUser);
         } else {
             return ResponseEntity.badRequest().build();
         }
@@ -60,4 +63,16 @@ public class UserController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/api/v1/allUsers")
+    public ResponseEntity<List<User>> getUserList(){
+        List<User> response = userService.getAllUsers();
+        return response == null? new ResponseEntity<>(HttpStatus.NO_CONTENT): ResponseEntity.ok(response);
+    }
+
+
+
+
+
+
 }
