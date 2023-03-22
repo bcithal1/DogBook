@@ -1,12 +1,10 @@
 package dogbook.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -17,9 +15,9 @@ public class User {
     private Integer id;
 
     @Column
-    private String first_name;
+    private  String fullName;
     @Column
-    private String last_name;
+    private String displayName;
     @Column
     private String email;
     @Column
@@ -31,33 +29,17 @@ public class User {
     @Column
     private String gender;
     @Column
-    private String profile_photo;
+    private String profilePhotoUrl;
 
-    @ManyToMany(mappedBy = "userSet", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("userSet")
-    private Set<Challenge> challengeSet = new HashSet<>();
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-//        comparing the class name
-        if (getClass() != obj.getClass())
-            return false;
+    @OneToMany(mappedBy = "user")
+    Set<UserChallengeRelation> userChallengeRelations = new HashSet<>();
 
-        User other = (User) obj;
-        if (this.first_name != other.first_name)
-            return false;
-        if (this.last_name!= other.last_name)
-            return false;
-        if (this.address != other.address)
-            return false;
-        if (this.phoneNumber!= other.phoneNumber)
-            return false;
-        return true;
-    }
+
+    @ManyToMany(mappedBy = "userSetEvent", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("userSetEvent")
+    private Set<Event> eventSet = new HashSet<>();
+
     public Integer getId() {
         return id;
     }
@@ -66,20 +48,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {
@@ -122,19 +104,27 @@ public class User {
         this.gender = gender;
     }
 
-    public String getProfile_photo() {
-        return profile_photo;
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
     }
 
-    public void setProfile_photo(String profile_photo) {
-        this.profile_photo = profile_photo;
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
     }
 
-    public Set<Challenge> getChallengeSet() {
-        return challengeSet;
+//    public Set<Challenge> getChallengeSet() {
+//        return challengeSet;
+//    }
+//
+//    public void setChallengeSet(Set<Challenge> challengeSet) {
+//        this.challengeSet = challengeSet;
+//    }
+
+    public Set<Event> getEventSet() {
+        return eventSet;
     }
 
-    public void setChallengeSet(Set<Challenge> challengeSet) {
-        this.challengeSet = challengeSet;
+    public void setEventSet(Set<Event> eventSet) {
+        this.eventSet = eventSet;
     }
 }

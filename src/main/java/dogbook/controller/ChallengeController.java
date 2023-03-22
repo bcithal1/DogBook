@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -50,6 +51,13 @@ public class ChallengeController {
     @PutMapping("/api/v1/challenges/{challengeId}/{userId}")
     public ResponseEntity<Challenge> assignChallengeToUser(@PathVariable Integer challengeId, @PathVariable Integer userId){
         Challenge response = challengeService.assignChallengeToUser(challengeId, userId);
+        return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/api/v1/challenges/{challengeId}/{userId}/{statusCode}/{completedDate}")
+    public ResponseEntity<Challenge> updateUserChallengeStatus(@PathVariable Integer challengeId, @PathVariable Integer userId, @PathVariable String statusCode, @PathVariable String completedDate){
+        Challenge response = challengeService.updateUserChallengeStatus(challengeId, userId, statusCode, LocalDate.parse(completedDate));
         return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
     }
 

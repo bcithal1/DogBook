@@ -35,7 +35,7 @@ public class UserController {
     @PutMapping("/api/v1/users/{id}")
     @PreAuthorize("@authenticatedUserService.hasId(#id) or hasAuthority('ROLE_next-server')")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user){
-        User savedUser = userService.updateUser(user);
+        User savedUser = userService.updateUser(id, user);
         if(savedUser != null){
             return ResponseEntity.ok(savedUser);
         } else {
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    public ResponseEntity<User> getUserByEmail(@RequestParam(required = false) String email, @RequestParam(required = false) String providerName, @RequestParam(required = false) String providerAccountId){
+    public ResponseEntity<Object> getUserByEmail(@RequestParam(required = false) String email, @RequestParam(required = false) String providerName, @RequestParam(required = false) String providerAccountId){
         if(email != null) {
             User user = userService.getUserByEmail(email);
             return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
@@ -60,16 +60,9 @@ public class UserController {
             User user = userService.getUserByProviderAccount(providerName, providerAccountId);
             return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.badRequest().build();
-    }
-
-    @GetMapping("/api/v1/allUsers")
-    public ResponseEntity<List<User>> getUserList(){
         List<User> response = userService.getAllUsers();
         return response == null? new ResponseEntity<>(HttpStatus.NO_CONTENT): ResponseEntity.ok(response);
     }
-
 
 
 

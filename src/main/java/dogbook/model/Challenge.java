@@ -22,49 +22,16 @@ public class Challenge {
     private LocalDate start_date;
     @Column
     private LocalDate target_date;
-    @Column
-    private LocalDate completed_date;
-    @Column
-    private Integer status_code;
 
 
-    @ManyToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name="User_Challenge_table",
-            joinColumns = @JoinColumn(name="challenge_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="User_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "challenge")
+    Set<UserChallengeRelation> userChallengeRelations = new HashSet<>();
 
 
-    )
-    @JsonIgnoreProperties("challengeSet")
-    private Set<User> userSet = new HashSet<>();
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-//        comparing the class name
-        if (getClass() != obj.getClass())
-            return false;
-
-        Challenge other = (Challenge) obj;
-        if (this.name != other.name)
-            return false;
-        if (this.start_date!= other.start_date)
-            return false;
-        if (this.target_date != other.target_date)
-            return false;
-        if (this.status_code!= other.status_code)
-            return false;
-        return true;
+    public void addUserChallengeRelationship(UserChallengeRelation userChallengeRelation){
+        userChallengeRelations.add(userChallengeRelation);
     }
 
-    public void assignUserToChallenge(User user){
-        userSet.add(user);
-    }
     public Integer getId() {
         return id;
     }
@@ -97,27 +64,5 @@ public class Challenge {
         this.target_date = target_date;
     }
 
-    public LocalDate getCompleted_date() {
-        return completed_date;
-    }
 
-    public void setCompleted_date(LocalDate completed_date) {
-        this.completed_date = completed_date;
-    }
-
-    public Integer getStatus_code() {
-        return status_code;
-    }
-
-    public void setStatus_code(Integer status_code) {
-        this.status_code = status_code;
-    }
-
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
 }
