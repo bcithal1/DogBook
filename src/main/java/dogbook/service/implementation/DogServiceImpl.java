@@ -1,7 +1,8 @@
 package dogbook.service.implementation;
 
 import dogbook.clients.BreedClient;
-import dogbook.model.breedResponse.BreedResponse;
+import dogbook.model.breedResponse.BreedEntry;
+import dogbook.model.breedResponse.BreedInfo;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
 import dogbook.repository.DogOwnerRepo;
@@ -52,9 +53,12 @@ public class DogServiceImpl implements DogService {
         dogRepo.deleteById(id);
     }
 
-    public BreedResponse getBreedListResponse(){
-        BreedResponse breedResponse = breedClient.getBreedList();
-        return breedResponse;
+    public List<BreedEntry> getBreedListResponse(){
+        return breedClient.getBreedList();
+    }
+
+    public BreedInfo getBreedById(Integer id){
+        return breedClient.getBreedById(id);
     }
 
 }

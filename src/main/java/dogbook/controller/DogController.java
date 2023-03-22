@@ -1,6 +1,7 @@
 package dogbook.controller;
 
-import dogbook.model.breedResponse.BreedResponse;
+import dogbook.model.breedResponse.BreedEntry;
+import dogbook.model.breedResponse.BreedInfo;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
 import dogbook.model.User;
@@ -115,8 +116,13 @@ public class DogController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/v1/breeds")
-    public ResponseEntity<BreedResponse> getBreedList(){
+    @GetMapping("/api/v1/breeds")
+    public ResponseEntity<List<BreedEntry>> getBreedList(){
         return ResponseEntity.ok(dogService.getBreedListResponse());
+    }
+
+    @GetMapping("/api/v1/breeds/{id}")
+    public ResponseEntity<BreedInfo> getBreedById(@PathVariable Integer id){
+        return ResponseEntity.ok(dogService.getBreedById(id));
     }
 }

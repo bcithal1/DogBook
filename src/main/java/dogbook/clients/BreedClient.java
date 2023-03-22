@@ -1,7 +1,8 @@
 package dogbook.clients;
+import dogbook.model.breedResponse.BreedEntry;
+import dogbook.model.breedResponse.BreedInfo;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import dogbook.model.breedResponse.BreedResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class BreedClient {
@@ -22,22 +24,32 @@ public class BreedClient {
     @Value("${api.breeds.key}")
     private String key;
 
-    public BreedClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
-    public BreedResponse getBreedList(){
+    private HttpEntity<String> getRequestHeaders(){
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("x-api-key", key);
         httpHeaders.set("Content-Type", "application/json");
         httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
-        HttpEntity<String> request = new HttpEntity<>(httpHeaders);
+        return new HttpEntity<>(httpHeaders);
+    }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
-//                .queryParam("limit", 10);
+    public BreedClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
 
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, request, BreedResponse.class).getBody();
+    public List<BreedEntry> getBreedList(){
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url + "/v1/breeds");
+
+        BreedEntry[] breedResponse = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, getRequestHeaders(), BreedEntry[].class).getBody();
+        return Arrays.asList(breedResponse);
+    }
+
+    public BreedInfo getBreedById(Integer id){
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url + "/v1/breeds/" + id);
+
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, getRequestHeaders(), BreedInfo.class).getBody();
     }
 }
