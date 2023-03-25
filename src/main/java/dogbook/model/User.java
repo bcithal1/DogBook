@@ -1,7 +1,5 @@
 package dogbook.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -36,9 +34,8 @@ public class User {
     Set<UserChallengeRelation> userChallengeRelations = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "userSetEvent", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("userSetEvent")
-    private Set<Event> eventSet = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<EventUserRelations> eventUserRelations = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -112,19 +109,5 @@ public class User {
         this.profilePhotoUrl = profilePhotoUrl;
     }
 
-//    public Set<Challenge> getChallengeSet() {
-//        return challengeSet;
-//    }
-//
-//    public void setChallengeSet(Set<Challenge> challengeSet) {
-//        this.challengeSet = challengeSet;
-//    }
 
-    public Set<Event> getEventSet() {
-        return eventSet;
-    }
-
-    public void setEventSet(Set<Event> eventSet) {
-        this.eventSet = eventSet;
-    }
 }

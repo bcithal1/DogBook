@@ -48,9 +48,9 @@ public class ChallengeController {
     }
 
 
-    @PutMapping("/api/v1/challenges/{challengeId}/{userId}")
-    public ResponseEntity<Challenge> assignChallengeToUser(@PathVariable Integer challengeId, @PathVariable Integer userId){
-        Challenge response = challengeService.assignChallengeToUser(challengeId, userId);
+    @PutMapping("/api/v1/challenges/assign/{challengeId}")
+    public ResponseEntity<Challenge> assignChallengeToUser(@PathVariable Integer challengeId){
+        Challenge response = challengeService.assignChallengeToUser(challengeId);
         return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
     }
 

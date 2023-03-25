@@ -1,8 +1,5 @@
 package dogbook.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,9 +16,9 @@ public class Challenge {
     @Column
     private String name;
     @Column
-    private LocalDate start_date;
+    private LocalDate startDate;
     @Column
-    private LocalDate target_date;
+    private LocalDate targetDate;
 
 
     @OneToMany(mappedBy = "challenge")
@@ -48,20 +45,20 @@ public class Challenge {
         this.name = name;
     }
 
-    public LocalDate getStart_date() {
-        return start_date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(LocalDate start_date) {
-        this.start_date = start_date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public LocalDate getTarget_date() {
-        return target_date;
+    public LocalDate getTargetDate() {
+        return targetDate;
     }
 
-    public void setTarget_date(LocalDate target_date) {
-        this.target_date = target_date;
+    public void setTargetDate(LocalDate targetDate) {
+        this.targetDate = targetDate;
     }
 
 

@@ -3,7 +3,6 @@ package dogbook.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -20,15 +19,15 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer event_id;
+    private Integer eventId;
     @Column
-    private Integer host_id;
+    private Integer hostId;
     @Column
-    private String event_title;
+    private String eventTitle;
     @Column
-    private String event_location;
+    private String eventLocation;
     @Column
-    private String event_description;
+    private String eventDescription;
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -37,54 +36,47 @@ public class Event {
     @Column
     private LocalDate date;
 
-    @ManyToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "User_Event_table",
-            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "event")
+    private Set<EventUserRelations> eventUserRelations = new HashSet<>();
 
-    )
-    @JsonIgnoreProperties("eventSet")
-    private Set<User> userSetEvent = new HashSet<>();
-
-    public Integer getEvent_id() {
-        return event_id;
+    public Integer getEventId() {
+        return eventId;
     }
 
-    public void setEvent_id(Integer event_id) {
-        this.event_id = event_id;
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 
-    public Integer getHost_id() {
-        return host_id;
+    public Integer getHostId() {
+        return hostId;
     }
 
-    public void setHost_id(Integer host_id) {
-        this.host_id = host_id;
+    public void setHostId(Integer hostId) {
+        this.hostId = hostId;
     }
 
-    public String getEvent_title() {
-        return event_title;
+    public String getEventTitle() {
+        return eventTitle;
     }
 
-    public void setEvent_title(String event_title) {
-        this.event_title = event_title;
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
 
-    public String getEvent_location() {
-        return event_location;
+    public String getEventLocation() {
+        return eventLocation;
     }
 
-    public void setEvent_location(String event_location) {
-        this.event_location = event_location;
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
     }
 
-    public String getEvent_description() {
-        return event_description;
+    public String getEventDescription() {
+        return eventDescription;
     }
 
-    public void setEvent_description(String event_description) {
-        this.event_description = event_description;
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     public LocalDate getDate() {
@@ -95,11 +87,11 @@ public class Event {
         this.date = date;
     }
 
-    public Set<User> getUserSet_Event() {
-        return userSetEvent;
+    public Set<EventUserRelations> getEventUserRelations() {
+        return eventUserRelations;
     }
 
-    public void setUserSet_Event(Set<User> userSet_Event) {
-        this.userSetEvent = userSet_Event;
+    public void setEventUserRelations(Set<EventUserRelations> eventUserRelations) {
+        this.eventUserRelations = eventUserRelations;
     }
 }

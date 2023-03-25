@@ -16,7 +16,7 @@ public interface ChallengeService {
 
     String deleteChallengeById(Integer id);
 
-    Challenge assignChallengeToUser(Integer challengeId, Integer userId);
+    Challenge assignChallengeToUser(Integer challengeId);
 
     Challenge updateUserChallengeStatus(Integer challengeId, Integer userId, String statusCode, LocalDate completedDate);
 }

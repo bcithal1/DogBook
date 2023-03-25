@@ -21,9 +21,9 @@ public class EventController {
     EventService eventService;
 
 
-    @PostMapping("/api/v1/event/{userId}")
-    public ResponseEntity<Event> createEvent(@PathVariable Integer userId, @RequestBody Event event){
-        Event response = eventService.createEvent(userId, event);
+    @PostMapping("/api/v1/event")
+    public ResponseEntity<Event> createEvent(@RequestBody Event event){
+        Event response = eventService.createEvent(event);
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 }

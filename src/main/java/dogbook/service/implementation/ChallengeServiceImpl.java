@@ -6,6 +6,7 @@ import dogbook.model.UserChallengeRelation;
 import dogbook.repository.ChallengeRepo;
 import dogbook.repository.UserChallengeRelationRepo;
 import dogbook.repository.UserRepo;
+import dogbook.service.AuthenticatedUserService;
 import dogbook.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +23,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     ChallengeRepo challengeRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    AuthenticatedUserService authenticatedUserService;
 
     @Autowired
     UserChallengeRelationRepo userChallengeRelationRepo;
@@ -48,8 +50,8 @@ public class ChallengeServiceImpl implements ChallengeService {
         Optional<Challenge> challengeFound = challengeRepo.findById(id);
         if(challengeFound.isPresent()){
             challengeFound.get().setName(challenge.getName());
-            challengeFound.get().setStart_date(challenge.getStart_date());
-            challengeFound.get().setTarget_date(challenge.getTarget_date());
+            challengeFound.get().setStartDate(challenge.getStartDate());
+            challengeFound.get().setTargetDate(challenge.getTargetDate());
             return challengeRepo.save(challengeFound.get());
         }
         return null;
@@ -57,9 +59,21 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public String deleteChallengeById(Integer id) {
+
+//        only the user that has the challenge assigned can delete their own challenge
+
+        Integer userId = authenticatedUserService.getId();
         Optional<Challenge> challengeFound = challengeRepo.findById(id);
-        if(challengeFound.isPresent()){
-            challengeRepo.deleteById(id);
+        Optional<User> userFound = userRepo.findById(userId);
+
+        List<UserChallengeRelation> relationFound = userChallengeRelationRepo.findAll().stream()
+                .filter(relation->relation.getUser().getId()==userId && relation.getChallenge().getId()==id)
+                .collect(Collectors.toList());
+
+
+        if(userFound.isPresent() && challengeFound.isPresent() && !relationFound.isEmpty()){
+//            only delete the relation but not the generic challenges
+            userChallengeRelationRepo.deleteById(relationFound.get(0).getId());
             return "challenge # " + id + " is deleted";
         }
 
@@ -67,12 +81,17 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public Challenge assignChallengeToUser(Integer challengeId, Integer userId) {
+    public Challenge assignChallengeToUser(Integer challengeId) {
 
+        Integer userId = authenticatedUserService.getId();
         Optional<User> userFound = userRepo.findById(userId);
         Optional<Challenge> challengeFound = challengeRepo.findById(challengeId);
+//        make sure same challenge can only be assigned to the same user only once
+        List<UserChallengeRelation> relationFound = userChallengeRelationRepo.findAll().stream()
+                .filter(relation->relation.getUser().getId()==userId && relation.getChallenge().getId()==challengeId)
+                .collect(Collectors.toList());
 
-        if(userFound.isPresent() && challengeFound.isPresent()){
+        if(userFound.isPresent() && challengeFound.isPresent() && relationFound.isEmpty()){
 
             UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null);
 
