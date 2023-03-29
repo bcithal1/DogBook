@@ -1,7 +1,6 @@
 package dogbook.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "Users")
 public class User {
