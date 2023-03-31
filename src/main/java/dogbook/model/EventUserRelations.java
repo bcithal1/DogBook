@@ -1,7 +1,9 @@
 package dogbook.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dogbook.enums.EventAccessLevel;
+import dogbook.enums.EventInvitedStatus;
 import dogbook.enums.GoingStatus;
 
 import javax.persistence.*;
@@ -16,25 +18,32 @@ public class EventUserRelations {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "eventId")
+    @JsonIgnore
     private Event event;
 
+    @Enumerated(EnumType.STRING)
     private EventAccessLevel eventaccessLevel;
-
+    @Enumerated(EnumType.STRING)
     private GoingStatus goingStatus;
+    @Enumerated(EnumType.STRING)
+    private EventInvitedStatus eventInvitedStatus;
+
 
     public EventUserRelations() {
     }
 
-    public EventUserRelations(User user, Event event, EventAccessLevel eventaccessLevel, GoingStatus goingStatus) {
+    public EventUserRelations(User user, Event event, EventAccessLevel eventaccessLevel, GoingStatus goingStatus, EventInvitedStatus eventInvitedStatus) {
 
         this.user = user;
         this.event = event;
         this.eventaccessLevel = eventaccessLevel;
         this.goingStatus = goingStatus;
+        this.eventInvitedStatus = eventInvitedStatus;
     }
 
     public Integer getId() {
@@ -75,5 +84,13 @@ public class EventUserRelations {
 
     public void setGoingStatus(GoingStatus goingStatus) {
         this.goingStatus = goingStatus;
+    }
+
+    public EventInvitedStatus getEventInvitedStatus() {
+        return eventInvitedStatus;
+    }
+
+    public void setEventInvitedStatus(EventInvitedStatus eventInvitedStatus) {
+        this.eventInvitedStatus = eventInvitedStatus;
     }
 }

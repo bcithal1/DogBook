@@ -3,6 +3,7 @@ package dogbook.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -19,8 +20,10 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer eventId;
+    @Column(name = "eventId")
+    private Integer id;
     @Column
+
     private Integer hostId;
     @Column
     private String eventTitle;
@@ -40,11 +43,11 @@ public class Event {
     private Set<EventUserRelations> eventUserRelations = new HashSet<>();
 
     public Integer getEventId() {
-        return eventId;
+        return id;
     }
 
     public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+        this.id = eventId;
     }
 
     public Integer getHostId() {

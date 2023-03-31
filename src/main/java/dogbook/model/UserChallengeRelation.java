@@ -20,6 +20,7 @@ public class UserChallengeRelation {
     @JoinColumn(name="challengeId")
     private Challenge challenge;
 
+
     private String statusCode;
 
     private LocalDate completedDate;
