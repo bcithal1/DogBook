@@ -4,10 +4,12 @@ import dogbook.model.breedResponse.BreedEntry;
 import dogbook.model.breedResponse.BreedInfo;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
+import dogbook.model.Photo;
 import dogbook.model.User;
 import dogbook.service.AuthenticatedUserService;
 import dogbook.service.DogOwnerService;
 import dogbook.service.DogService;
+import dogbook.service.PhotoService;
 import dogbook.service.UserService;
 import dogbook.enums.AccessLevel;
 import org.slf4j.Logger;
@@ -15,8 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +35,8 @@ public class DogController {
     DogOwnerService dogOwnerService;
     @Autowired
     UserService userService;
+    @Autowired
+    PhotoService photoService;
     @Autowired
     AuthenticatedUserService authenticatedUserService;
 
@@ -124,5 +131,32 @@ public class DogController {
     @GetMapping("/api/v1/breeds/{id}")
     public ResponseEntity<BreedInfo> getBreedById(@PathVariable Integer id){
         return ResponseEntity.ok(dogService.getBreedById(id));
+    }
+
+    @PostMapping("/api/v1/dogs/{id}/photos")
+    public ResponseEntity<Dog> uploadPhoto(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws IOException {
+        Integer userId = authenticatedUserService.getId();
+        Optional<Dog> currentDog = dogService.getDogById(id);
+
+        if(currentDog.isPresent()){
+            var requestingOwner = currentDog.get().getOwnerFromOwnerId(userId);
+            if(requestingOwner.isEmpty() ||
+                    !(requestingOwner.get().getAccessLevel() == AccessLevel.PRIMARY_OWNER ||
+                    requestingOwner.get().getAccessLevel() == AccessLevel.SECONDARY_OWNER))
+            {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            Photo photo = new Photo(file);
+            Dog savedDog = dogService.savePhoto(photo, currentDog.get());
+
+            if(savedDog != null){
+                return ResponseEntity.ok(savedDog);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

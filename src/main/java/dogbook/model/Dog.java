@@ -34,6 +34,9 @@ public class Dog {
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "dogId", updatable = false, insertable = false)
     private List<DogOwner> owners;
+    @Column
+    @ElementCollection
+    private List<Integer> photoIds;
 
     public Integer getId() {
         return id;
@@ -105,6 +108,14 @@ public class Dog {
 
     public void setOwners(List<DogOwner> owners) {
         this.owners = owners;
+    }
+
+    public List<Integer> getPhotoIds() {
+        return photoIds;
+    }
+
+    public void setPhotoIds(List<Integer> photoIds) {
+        this.photoIds = photoIds;
     }
 
     @JsonIgnore
