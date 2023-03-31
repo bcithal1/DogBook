@@ -153,6 +153,7 @@ USER{
         number dog_id PK
         string name
         string breed
+        string breed_id
         string size
         string sex
         bool altered
