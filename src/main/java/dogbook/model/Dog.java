@@ -23,6 +23,8 @@ public class Dog {
     @Column
     private String breed;
     @Column
+    private Integer breedId;
+    @Column
     private Sex sex;
     @Column
     private Boolean altered;
@@ -68,6 +70,14 @@ public class Dog {
 
     public void setBreed(String breed) {
         this.breed = breed;
+    }
+
+    public Integer getBreedId() {
+        return breedId;
+    }
+
+    public void setBreedId(Integer breedId) {
+        this.breedId = breedId;
     }
 
     public Sex getSex() {
