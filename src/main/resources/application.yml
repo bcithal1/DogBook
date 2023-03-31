@@ -10,3 +10,7 @@ spring:
   h2:
     console:
       enabled: true
+api:
+  breeds:
+    url: https://api.thedogapi.com
+    key: live_jwsuJvqZvCQdSK5meRkUy9dlcSG32DW3M7axvtgWUlpQlUfwbTvyg1K1rRMAeJ7C
