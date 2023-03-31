@@ -23,6 +23,8 @@ public class Dog {
     @Column
     private String breed;
     @Column
+    private Integer breedId;
+    @Column
     private Sex sex;
     @Column
     private Boolean altered;
@@ -34,6 +36,9 @@ public class Dog {
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "dogId", updatable = false, insertable = false)
     private List<DogOwner> owners;
+    @Column
+    @ElementCollection
+    private List<Integer> photoIds;
 
     public Integer getId() {
         return id;
@@ -65,6 +70,14 @@ public class Dog {
 
     public void setBreed(String breed) {
         this.breed = breed;
+    }
+
+    public Integer getBreedId() {
+        return breedId;
+    }
+
+    public void setBreedId(Integer breedId) {
+        this.breedId = breedId;
     }
 
     public Sex getSex() {
@@ -105,6 +118,14 @@ public class Dog {
 
     public void setOwners(List<DogOwner> owners) {
         this.owners = owners;
+    }
+
+    public List<Integer> getPhotoIds() {
+        return photoIds;
+    }
+
+    public void setPhotoIds(List<Integer> photoIds) {
+        this.photoIds = photoIds;
     }
 
     @JsonIgnore

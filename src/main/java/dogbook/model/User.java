@@ -111,5 +111,19 @@ public class User {
         this.profilePhotoUrl = profilePhotoUrl;
     }
 
+    public Set<UserChallengeRelation> getUserChallengeRelations() {
+        return userChallengeRelations;
+    }
 
+    public void setUserChallengeRelations(Set<UserChallengeRelation> userChallengeRelations) {
+        this.userChallengeRelations = userChallengeRelations;
+    }
+
+    public Set<EventUserRelations> getEventUserRelations() {
+        return eventUserRelations;
+    }
+
+    public void setEventUserRelations(Set<EventUserRelations> eventUserRelations) {
+        this.eventUserRelations = eventUserRelations;
+    }
 }

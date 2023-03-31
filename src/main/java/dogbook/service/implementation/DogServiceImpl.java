@@ -1,9 +1,14 @@
 package dogbook.service.implementation;
 
+import dogbook.clients.BreedClient;
+import dogbook.model.breedResponse.BreedEntry;
+import dogbook.model.breedResponse.BreedInfo;
 import dogbook.model.Dog;
 import dogbook.model.DogOwner;
+import dogbook.model.Photo;
 import dogbook.repository.DogOwnerRepo;
 import dogbook.repository.DogRepo;
+import dogbook.repository.PhotoRepo;
 import dogbook.service.DogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,10 @@ public class DogServiceImpl implements DogService {
     DogRepo dogRepo;
     @Autowired
     DogOwnerRepo dogOwnerRepo;
+    @Autowired
+    BreedClient breedClient;
+    @Autowired
+    PhotoRepo photoRepo;
 
     @Override
     public List<Dog> getAllDogsByUserId(Integer id){
@@ -47,4 +56,22 @@ public class DogServiceImpl implements DogService {
     public void deleteDog(Integer id){
         dogRepo.deleteById(id);
     }
+
+    public List<BreedEntry> getBreedListResponse(){
+        return breedClient.getBreedList();
+    }
+
+    public BreedInfo getBreedById(Integer id){
+        return breedClient.getBreedById(id);
+    }
+
+    @Override
+    @Transactional
+    public Dog savePhoto(Photo photo, Dog dog){
+        Photo savedPhoto = photoRepo.save(photo);
+        dog.getPhotoIds().add(savedPhoto.getId());
+        Dog savedDog = dogRepo.save(dog);
+        return savedDog;
+    }
+
 }
