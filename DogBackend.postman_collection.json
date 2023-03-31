@@ -204,7 +204,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"doggy\",\n    \"age\": 30,\n    \"breed\": \"Dog\",\n    \"sex\": \"Male\",\n    \"temperamentBody\": \"Good boi\",\n    \"likesBody\": \"Toys and squirrels\",\n    \"altered\": false,\n    \"weightLbs\": 100\n}",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"other doggy\",\n    \"age\": 30,\n    \"breed\": \"Dog\",\n    \"size\": \"SMALL\",\n    \"sex\": \"MALE\",\n    \"altered\": false,\n    \"weightLbs\": 100\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -289,7 +289,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"name\": \"Doug\",\n    \"age\": 30,\n    \"breed\": \"Dog\",\n    \"sex\": \"Male\",\n    \"temperamentBody\": \"Good boi\",\n    \"likesBody\": \"Toys and squirrels\",\n    \"altered\": false,\n    \"weightLbs\": 100\n}",
+					"raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"name\": \"TEST\",\n    \"age\": 30,\n    \"breed\": \"Dog\",\n    \"size\": \"SMALL\",\n    \"sex\": \"MALE\",\n    \"altered\": false,\n    \"weightLbs\": 100\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -1,7 +1,10 @@
 package dogbook.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dogbook.service.implementation.AccessLevel;
+
+import dogbook.enums.Size;
+import dogbook.enums.AccessLevel;
+import dogbook.enums.Sex;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,13 +23,11 @@ public class Dog {
     @Column
     private String breed;
     @Column
-    private String sex;
-    @Column
-    private String temperamentBody;
-    @Column
-    private String likesBody;
+    private Sex sex;
     @Column
     private Boolean altered;
+    @Column
+    private Size size;
     @Column
     private Integer weightLbs;
     @Column
@@ -66,28 +67,12 @@ public class Dog {
         this.breed = breed;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
-    }
-
-    public String getTemperamentBody() {
-        return temperamentBody;
-    }
-
-    public void setTemperamentBody(String temperamentBody) {
-        this.temperamentBody = temperamentBody;
-    }
-
-    public String getLikesBody() {
-        return likesBody;
-    }
-
-    public void setLikesBody(String likesBody) {
-        this.likesBody = likesBody;
     }
 
     public Boolean getAltered() {
@@ -96,6 +81,14 @@ public class Dog {
 
     public void setAltered(Boolean altered) {
         this.altered = altered;
+    }
+
+    public Size getSize(){
+        return this.size;
+    }
+
+    public void setSize(Size size){
+        this.size = size;
     }
 
     public Integer getWeightLbs() {

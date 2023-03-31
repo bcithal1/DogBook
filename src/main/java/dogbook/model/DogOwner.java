@@ -1,7 +1,6 @@
 package dogbook.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dogbook.service.implementation.AccessLevel;
+import dogbook.enums.AccessLevel;
 
 import javax.persistence.*;
 
