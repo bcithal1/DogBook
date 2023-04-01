@@ -4,7 +4,6 @@ import dogbook.model.FriendRequest;
 import dogbook.model.Friendship;
 import dogbook.repository.FriendRequestRepo;
 import dogbook.repository.FriendshipRepo;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
