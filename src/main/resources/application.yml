@@ -6,10 +6,15 @@ spring:
     password: password
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
     defer-datasource-initialization: true
   h2:
     console:
       enabled: true
+
+
 api:
   breeds:
     url: https://api.thedogapi.com

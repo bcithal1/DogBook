@@ -1,8 +1,8 @@
 package dogbook.service;
 
 import dogbook.model.User;
-import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -10,5 +10,7 @@ public interface UserService {
     User getUserByEmail(String email);
     User getUserByProviderAccount(String name, String accountId);
     User createUser(User user);
-    User updateUser(User user);
+    User updateUser(Integer id, User user);
+
+    List<User> getAllUsers();
 }

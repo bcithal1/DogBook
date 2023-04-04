@@ -31,6 +31,10 @@ import java.util.Collection;
 public class SecurityConfig {
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/h2-console/**");
+    }
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors()
@@ -76,6 +80,9 @@ public class SecurityConfig {
 
             return grantedAuthorities;
         };
+
+
+
     }
 
     @Bean
@@ -89,8 +96,5 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**");
-    }
+
 }
