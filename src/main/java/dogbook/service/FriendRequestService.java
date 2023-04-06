@@ -10,11 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+@SuppressWarnings("rawtypes")
 @Service
 public class FriendRequestService {
 
@@ -30,7 +28,7 @@ public class FriendRequestService {
     @Autowired
     AuthenticatedUserService authenticatedUserService;
 
-    public ResponseEntity<Friendship> sendFriendRequest(Integer recipientId){
+    public ResponseEntity sendFriendRequest(Integer recipientId){
 
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
@@ -61,14 +59,14 @@ public class FriendRequestService {
         return ResponseEntity.ok(friendRequestRepo.findByReceiverId(currentUser));
     }
 
-    public ResponseEntity<Friendship> cancelFriendRequest(Integer requestId){
+    public ResponseEntity cancelFriendRequest(Integer requestId){
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 
         if (friendRequest.isEmpty()) {
             responseEntity = ResponseEntity.notFound().build();
-        } else if (friendRequest.get().getSenderId() != currentUser) {
+        } else if (!Objects.equals(friendRequest.get().getSenderId(), currentUser)) {
             System.out.println(friendRequest.get().getSenderId());
             responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
@@ -82,7 +80,7 @@ public class FriendRequestService {
         return friendRequestRepo.findById(requestId);
     }
 
-    public ResponseEntity<FriendRequest> acceptRequest(Integer requestId){
+    public ResponseEntity acceptRequest(Integer requestId){
 
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
@@ -90,7 +88,7 @@ public class FriendRequestService {
 
         if (friendRequest.isEmpty()) {
             responseEntity = ResponseEntity.notFound().build();
-        } else if (friendRequest.get().getReceiverId() != currentUser) {
+        } else if (!friendRequest.get().getReceiverId().equals(currentUser)) {
             responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
             Friendship newFriendship = new Friendship();
@@ -105,14 +103,14 @@ public class FriendRequestService {
 
     }
 
-    public ResponseEntity<FriendRequest> rejectRequest(Integer requestId){
+    public ResponseEntity rejectRequest(Integer requestId){
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 
         if (friendRequest.isEmpty()) {
             responseEntity = ResponseEntity.notFound().build();
-        } else if (friendRequest.get().getReceiverId() != currentUser) {
+        } else if (!friendRequest.get().getReceiverId().equals(currentUser)) {
             responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
             deleteFriendRequest(requestId);
@@ -127,7 +125,7 @@ public class FriendRequestService {
 
     public boolean validateRequest(Integer senderId, Integer receiverId){
         //Hard stops someone from friending themselves before anything else is done.
-        if(senderId == receiverId)
+        if(senderId.equals(receiverId))
             return false;
 
         List<FriendRequest> senderRequests = friendRequestRepo.findBySenderId(senderId);
@@ -138,11 +136,11 @@ public class FriendRequestService {
         friendList.addAll(friendshipRepo.findBySecondaryUserId(senderId));
 
         for (FriendRequest sentRequests : senderRequests){
-            if (sentRequests.getReceiverId() == receiverId)
+            if (sentRequests.getReceiverId().equals(receiverId))
                 return false;
         }
         for (FriendRequest receivedRequests : receiverRequests){
-            if (receivedRequests.getSenderId() == receiverId)
+            if (receivedRequests.getSenderId().equals(receiverId))
                 return false;
         }
         for (Friendship friendship : friendList){

@@ -3,8 +3,6 @@ package dogbook.service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 @Service
 public class AuthenticatedUserService {
 
@@ -18,7 +16,6 @@ public class AuthenticatedUserService {
             return null;
         }
 
-        Integer userId = Integer.parseInt(userRole.getAuthority().replace("USER_", ""));
-        return userId;
+        return Integer.parseInt(userRole.getAuthority().replace("USER_", ""));
     }
 }
