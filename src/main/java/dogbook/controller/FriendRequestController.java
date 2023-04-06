@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @RestController
 public class FriendRequestController {
 
@@ -17,7 +18,7 @@ public class FriendRequestController {
     FriendRequestService friendRequestService;
 
     @PostMapping("/api/v1/friendrequest/{recipientId}")
-    public ResponseEntity<Friendship> sendFriendRequest(@PathVariable Integer recipientId) {
+    public ResponseEntity sendFriendRequest(@PathVariable Integer recipientId) {
         return friendRequestService.sendFriendRequest(recipientId);
     }
 
@@ -37,12 +38,12 @@ public class FriendRequestController {
     }
 
     @PutMapping("/api/v1/acceptfriendship/{requestId}")
-    public ResponseEntity<FriendRequest> acceptFriendRequest(@PathVariable Integer requestId) {
+    public ResponseEntity acceptFriendRequest(@PathVariable Integer requestId) {
         return friendRequestService.acceptRequest(requestId);
     }
 
     @DeleteMapping("api/v1/rejectfriendship/{requestId}")
-    public ResponseEntity<FriendRequest> rejectRequest(@PathVariable Integer requestId) {
+    public ResponseEntity rejectRequest(@PathVariable Integer requestId) {
         return friendRequestService.rejectRequest(requestId);
     }
 
