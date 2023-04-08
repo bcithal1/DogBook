@@ -2,6 +2,7 @@ package dogbook.controller;
 
 import dogbook.model.DogTrick;
 import dogbook.service.DogTrickService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class DogTrickController {
 
     //create a trick
     @PostMapping("/api/v1/tricks/{dogId}")
-    public ResponseEntity<DogTrick> createTrick(@PathVariable Integer dogId, @RequestBody DogTrick dogTrick){
+    public ResponseEntity<DogTrick> createTrick(@PathVariable Integer dogId, @RequestBody @NotNull DogTrick dogTrick){
         return dogTrickService.createTrick(dogId, dogTrick.getTrickName());
     }
 

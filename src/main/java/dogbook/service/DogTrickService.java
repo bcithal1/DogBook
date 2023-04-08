@@ -30,22 +30,23 @@ public class DogTrickService {
     DogOwnerRepo dogOwnerRepo;
 
 
-
     //add a trick
     public ResponseEntity<DogTrick> createTrick(Integer dogId, String trickName) {
         ResponseEntity responseEntity;
         DogTrick dogTrick = new DogTrick(dogId, trickName);
 
-        if(dogRepo.findById(dogId) != null) {
+        if(dogRepo.findById(dogId).isPresent()) {
 
             if (validateUser(dogId)) {
-                dogTrickRepo.save(dogTrick);
-                responseEntity = ResponseEntity.ok().build();
+               var tricks = dogTrickRepo.save(dogTrick);
+                responseEntity = ResponseEntity.ok(tricks);
             } else {
-                responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                responseEntity =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+        }else {
+            responseEntity = ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return responseEntity;
     }
 
     // displaying trick(s) on dog profile page
@@ -60,8 +61,9 @@ public class DogTrickService {
 
         if (currentTrick.isPresent()) {
             if (validateUser(currentTrick.get().getDogId())) {
-                dogTrickRepo.save(dogTrick);
-                responseEntity = ResponseEntity.ok().build();
+                var tricks = dogTrickRepo.save(dogTrick);
+
+                responseEntity = ResponseEntity.ok(tricks);
             } else {
                 responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
@@ -96,11 +98,9 @@ public class DogTrickService {
         Integer currentUser = authenticatedUserService.getId();
         List<DogOwner> validUsers = dogOwnerRepo.findAllByDogId(dogId);
         for (DogOwner owner : validUsers) {
-            if (owner.equals(currentUser) &&
+            userValidated = owner.getUserId().equals(currentUser) &&
                     (owner.getAccessLevel() == AccessLevel.PRIMARY_OWNER
-                            || owner.getAccessLevel() == AccessLevel.SECONDARY_OWNER)) {
-                userValidated = true;
-            }
+                            || owner.getAccessLevel() == AccessLevel.SECONDARY_OWNER);
         }
         return userValidated;
     }

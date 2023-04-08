@@ -5,7 +5,7 @@ import javax.persistence.*;
 public class DogTrick {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer trickID;
+    private Integer trickId;
 
     @Column
     private Integer dogId;
@@ -13,17 +13,21 @@ public class DogTrick {
     @Column
     private String trickName;
 
+    //default constructor
+    public DogTrick() {
+    }
+
     public DogTrick(Integer dogId, String trickName) {
         this.dogId = dogId;
         this.trickName = trickName;
     }
 
-    public Integer getTrickID() {
-        return trickID;
+    public Integer getTrickId() {
+        return trickId;
     }
 
-    public void setTrickID(Integer trickID) {
-        this.trickID = trickID;
+    public void setTrickId(Integer trickId) {
+        this.trickId = trickId;
     }
 
     public Integer getDogId() {

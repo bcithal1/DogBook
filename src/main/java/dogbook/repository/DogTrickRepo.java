@@ -9,7 +9,7 @@ import java.util.List;
     public interface DogTrickRepo extends JpaRepository<DogTrick, Integer> {
         List<DogTrick> findByDogId(Integer dogId);
 
-        //delete a trick
-//        void delete(Integer trickId);
+
+
     }
 
