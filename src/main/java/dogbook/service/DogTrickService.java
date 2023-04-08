@@ -60,7 +60,10 @@ public class DogTrickService {
         Optional<DogTrick> currentTrick = dogTrickRepo.findById(trickId);
 
         if (currentTrick.isPresent()) {
-            if (validateUser(currentTrick.get().getDogId())) {
+            if(!dogTrick.getTrickId().equals(trickId)) {
+                responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+             else if (validateUser(currentTrick.get().getDogId())) {
                 var tricks = dogTrickRepo.save(dogTrick);
 
                 responseEntity = ResponseEntity.ok(tricks);
