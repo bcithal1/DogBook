@@ -8,8 +8,8 @@ import dogbook.repository.DogRepo;
 import dogbook.repository.DogTrickRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,68 +31,54 @@ public class DogTrickService {
 
 
     //add a trick
-    public ResponseEntity<DogTrick> createTrick(Integer dogId, String trickName) {
-        ResponseEntity responseEntity;
+    public DogTrick createTrick(Integer dogId, String trickName) {
         DogTrick dogTrick = new DogTrick(dogId, trickName);
 
         if(dogRepo.findById(dogId).isPresent()) {
-
             if (validateUser(dogId)) {
-               var tricks = dogTrickRepo.save(dogTrick);
-                responseEntity = ResponseEntity.ok(tricks);
+                return dogTrickRepo.save(dogTrick);
             } else {
-                responseEntity =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
             }
-        }else {
-            responseEntity = ResponseEntity.notFound().build();
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Dog not found");
         }
-        return responseEntity;
     }
 
     // displaying trick(s) on dog profile page
-    public ResponseEntity<List<DogTrick>> getAllTricks(Integer dogId) {
-        return ResponseEntity.ok(dogTrickRepo.findByDogId(dogId));
+    public List<DogTrick> getAllTricks(Integer dogId) {
+        return dogTrickRepo.findByDogId(dogId);
     }
 
     // update trick on dog profile page
-    public ResponseEntity<DogTrick> updateTrick(Integer trickId, DogTrick dogTrick) {
-        ResponseEntity responseEntity;
+    public DogTrick updateTrick(Integer trickId, DogTrick dogTrick) {
         Optional<DogTrick> currentTrick = dogTrickRepo.findById(trickId);
 
         if (currentTrick.isPresent()) {
             if(!dogTrick.getTrickId().equals(trickId)) {
-                responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
             }
              else if (validateUser(currentTrick.get().getDogId())) {
-                var tricks = dogTrickRepo.save(dogTrick);
-
-                responseEntity = ResponseEntity.ok(tricks);
+                return dogTrickRepo.save(dogTrick);
             } else {
-                responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
             }
         } else {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Trick not found");
         }
-        return responseEntity;
     }
 
     // delete a trick
-    public ResponseEntity deleteTrick(Integer trickId){
-        ResponseEntity responseEntity;
+    public void deleteTrick(Integer trickId){
         Optional<DogTrick> currentTrick = dogTrickRepo.findById(trickId);
 
         if (currentTrick.isPresent()) {
             if (validateUser(currentTrick.get().getDogId())) {
                 dogTrickRepo.deleteById(trickId);
-                responseEntity = ResponseEntity.ok().build();
             } else {
-                responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
             }
-        } else {
-            responseEntity = ResponseEntity.notFound().build();
         }
-
-        return responseEntity;
     }
 
     //method to validate authenticated user
