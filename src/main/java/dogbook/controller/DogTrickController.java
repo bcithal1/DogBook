@@ -18,24 +18,25 @@ public class DogTrickController {
     //create a trick
     @PostMapping("/api/v1/tricks/{dogId}")
     public ResponseEntity<DogTrick> createTrick(@PathVariable Integer dogId, @RequestBody @NotNull DogTrick dogTrick){
-        return dogTrickService.createTrick(dogId, dogTrick.getTrickName());
+        return ResponseEntity.ok(dogTrickService.createTrick(dogId, dogTrick.getTrickName()));
     }
 
     //display all tricks
     @GetMapping("/api/v1/tricks/{dogId}")
     public ResponseEntity<List<DogTrick>> getAllTricks(@PathVariable Integer dogId) {
-        return dogTrickService.getAllTricks(dogId);
+        return ResponseEntity.ok(dogTrickService.getAllTricks(dogId));
     }
 
     //update trick
     @PutMapping("/api/v1/tricks/{trickId}")
     public ResponseEntity<DogTrick> updateTrick(@PathVariable Integer trickId, @RequestBody DogTrick dogTrick ) {
-        return dogTrickService.updateTrick(trickId, dogTrick);
+        return ResponseEntity.ok(dogTrickService.updateTrick(trickId, dogTrick));
     }
 
     //delete a trick
     @DeleteMapping("/api/v1/deleteTricks/{trickId}")
-    public ResponseEntity<DogTrick> deleteTrick(@PathVariable Integer trickId) {
-        return dogTrickService.deleteTrick(trickId);
+    public ResponseEntity<Void> deleteTrick(@PathVariable Integer trickId) {
+        dogTrickService.deleteTrick(trickId);
+        return ResponseEntity.noContent().build();
     }
 }
