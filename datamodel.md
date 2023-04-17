@@ -50,7 +50,7 @@ TRICK{
     number trick_id pk
     number dog_id fk
     number skill
-    string name
+    string trickName
 }
 
 LIKED_POSTS{
