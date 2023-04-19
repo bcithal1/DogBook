@@ -22,8 +22,13 @@ public class DogProfileService {
 
 
     public DogProfile createDogProfile(DogProfile dogProfile){
-        if (dogRepo.findById(dogProfile.getDog().getId()).isPresent()){
-            return dogProfileRepo.save(dogProfile);
+        Integer dogId = dogProfile.getDog().getId();
+        if (dogRepo.findById(dogId).isPresent()){
+            if(dogProfileRepo.findByDogId(dogId).isPresent()) {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Dog profile already exists");
+            } else {
+                return dogProfileRepo.save(dogProfile);
+            }
         }
         else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Dog not found");

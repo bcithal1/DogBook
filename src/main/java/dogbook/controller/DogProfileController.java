@@ -16,9 +16,6 @@ public class DogProfileController {
     @Autowired
     DogProfileService dogProfileService;
 
-    @Autowired
-    DogProfileRepo dogProfileRepo;
-
     @PreAuthorize("@authenticatedUserService.validateDogOwnership(#dogProfile.getDog().getId())")
     @PostMapping("/api/v1/dogs/profiles")
     public ResponseEntity<DogProfile> createDogProfile(@RequestBody @NotNull DogProfile dogProfile){
