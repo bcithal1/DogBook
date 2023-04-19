@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface DogProfileRepo extends CrudRepository<DogProfile, Integer> {
 
     Optional<DogProfile> findByDogId(Integer dogId);
+
+    List<DogProfile> findAll();
 }

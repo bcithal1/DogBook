@@ -7,12 +7,10 @@ public class DogProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-//    @OneToOne
-//    @JoinColumn(name = "profilePhotoId")
-//    Photo profilePhoto;
-//    @OneToOne
-//    @JoinColumn(name = "bannerPhotoId")
-//    Photo bannerPhoto;
+    @Column
+    Integer profilePhotoId;
+    @Column
+    Integer bannerPhotoId;
     @OneToOne
     @JoinColumn(name="dogId")
     Dog dog;
@@ -30,22 +28,22 @@ public class DogProfile {
         this.id = id;
     }
 
-//    public Photo getProfilePhoto() {
-//        return profilePhoto;
-//    }
-//
-//    public void setProfilePhoto(Photo profilePhoto) {
-//        this.profilePhoto = profilePhoto;
-//    }
-//
-//    public Photo getBannerPhoto() {
-//        return bannerPhoto;
-//    }
-//
-//    public void setBannerPhoto(Photo bannerPhoto) {
-//        this.bannerPhoto = bannerPhoto;
-//    }
-//
+    public Integer getProfilePhotoId() {
+        return profilePhotoId;
+    }
+
+    public void setProfilePhotoId(Integer profilePhotoId) {
+        this.profilePhotoId = profilePhotoId;
+    }
+
+    public Integer getBannerPhotoId() {
+        return bannerPhotoId;
+    }
+
+    public void setBannerPhotoId(Integer bannerPhotoId) {
+        this.bannerPhotoId = bannerPhotoId;
+    }
+
     public Dog getDog() {
         return dog;
     }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,9 @@ public class DogProfileService {
         }
     }
 
+    public List<DogProfile> getAllDogProfiles(){
+        return dogProfileRepo.findAll();
+    }
     public DogProfile getDogProfileByProfileId(Integer id){
         Optional<DogProfile> dogProfile = dogProfileRepo.findById(id);
         if(dogProfile.isPresent()){

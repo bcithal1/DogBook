@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 public class DogProfileController {
@@ -22,6 +23,10 @@ public class DogProfileController {
         return ResponseEntity.ok(dogProfileService.createDogProfile(dogProfile));
     }
 
+    @GetMapping("/api/v1/dogs/profiles")
+    public ResponseEntity<List<DogProfile>> getAllDogProfiles(){
+        return ResponseEntity.ok(dogProfileService.getAllDogProfiles());
+    }
     @GetMapping("/api/v1/dogs/profiles/{id}")
     public ResponseEntity<DogProfile> getDogProfileByProfileId(@PathVariable Integer id){
         return ResponseEntity.ok(dogProfileService.getDogProfileByProfileId(id));
