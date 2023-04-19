@@ -132,4 +132,6 @@ public class User {
     public void setEventUserRelations(Set<EventUserRelations> eventUserRelations) {
         this.eventUserRelations = eventUserRelations;
     }
+
+
 }

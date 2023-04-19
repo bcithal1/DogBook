@@ -107,4 +107,12 @@ public class Event {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
