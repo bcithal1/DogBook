@@ -134,7 +134,7 @@ public class DogController {
     }
 
     @PostMapping("/api/v1/dogs/{id}/photos")
-    public ResponseEntity<Dog> uploadPhoto(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Integer> uploadPhoto(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws IOException {
         Integer userId = authenticatedUserService.getId();
         Optional<Dog> currentDog = dogService.getDogById(id);
 
@@ -151,7 +151,7 @@ public class DogController {
             Dog savedDog = dogService.savePhoto(photo, currentDog.get());
 
             if(savedDog != null){
-                return ResponseEntity.ok(savedDog);
+                return ResponseEntity.ok(photo.getId());
             } else {
                 return ResponseEntity.badRequest().build();
             }
