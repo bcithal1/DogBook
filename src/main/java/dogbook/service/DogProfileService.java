@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -67,11 +68,12 @@ public class DogProfileService {
         }
     }
 
-
+    @Transactional
     public void deleteDogProfile(Integer id){
         Optional<DogProfile> dogProfile = dogProfileRepo.findById(id);
         if (dogProfile.isPresent()){
             dogProfileRepo.delete(dogProfile.get());
+            dogRepo.delete(dogProfile.get().getDog());
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Dog profile not found");
         }
