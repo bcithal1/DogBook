@@ -39,6 +39,8 @@ public class Event {
     @Column
     private LocalDate date;
 
+    private String time;
+
     @OneToMany(mappedBy = "event")
     private Set<EventUserRelations> eventUserRelations = new HashSet<>();
 
@@ -96,5 +98,21 @@ public class Event {
 
     public void setEventUserRelations(Set<EventUserRelations> eventUserRelations) {
         this.eventUserRelations = eventUserRelations;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
