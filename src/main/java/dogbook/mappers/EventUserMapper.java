@@ -7,7 +7,6 @@ import dogbook.model.UserEventDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.lang.annotation.Target;
 
 @Mapper(componentModel = "spring")
 public interface EventUserMapper {
