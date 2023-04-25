@@ -18,7 +18,7 @@ public class User {
     private Integer id;
 
     @Column
-    private  String fullName;
+    private String fullName;
     @Column
     private String displayName;
     @Column

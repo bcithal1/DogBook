@@ -13,6 +13,9 @@ public class UserEventDTO {
     private Integer eventId;
     private Integer userId;
 
+    private String userName;
+
+    private String profilePhotoUrl;
     private GoingStatus goingStatus;
 
     private EventAccessLevel eventAccessLevel;
@@ -66,5 +69,21 @@ public class UserEventDTO {
 
     public void setEventInvitedStatus(EventInvitedStatus eventInvitedStatus) {
         this.eventInvitedStatus = eventInvitedStatus;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
+    }
+
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
     }
 }

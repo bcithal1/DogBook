@@ -44,4 +44,21 @@ public class EventUserDTOService {
         return null;
 
     }
+
+    public List<UserEventDTO> getAllEventUserDTO(Integer eventId) {
+
+        Optional<Event> eventFound = eventRepo.findById(eventId);
+        List<EventUserRelations> eventUserRelationsFound = eventUserRelationRepo.findByEventId(eventId);
+
+        if(eventFound.isPresent() && !eventUserRelationsFound.isEmpty()){
+
+            List<UserEventDTO> UserDTOFound = eventUserRelationsFound.stream().map(relation -> eventUserMapper.mapFromUserEventAndEventUserRelations(relation.getUser(), eventFound.get(),relation)).collect(Collectors.toList());
+            return UserDTOFound;
+
+        }
+
+        return null;
+
+
+    }
 }

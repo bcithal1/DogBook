@@ -28,6 +28,12 @@ public class EventController {
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 
+    @PostMapping("/api/v1/event/update/{eventId}")
+    public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable Integer eventId){
+        Event response = eventService.updateEvent(event, eventId);
+        return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
+    }
+
     @PutMapping("/api/v1/event/invite/{eventId}/{userId}")
     public ResponseEntity<User> inviteUserToEvent(@PathVariable Integer eventId, @PathVariable Integer userId){
         User response = eventService.inviteUserToEvent(eventId,userId);
@@ -81,5 +87,7 @@ public class EventController {
         List<EventUserRelations> response = eventService.getAllEventUserRelationsForEvent(eventId);
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
+
+
 
 }
