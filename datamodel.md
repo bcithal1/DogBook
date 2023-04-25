@@ -43,7 +43,11 @@
 
 
 DOG_PROFILE{
-
+ number profile_pic_id fk
+ number banner_pic_id fk
+ number dog_id fk
+ string temperament
+ string bio
 }
 
 TRICK{

@@ -31,15 +31,9 @@ public class DogTrickService {
 
 
     //add a trick
-    public DogTrick createTrick(Integer dogId, String trickName) {
-        DogTrick dogTrick = new DogTrick(dogId, trickName);
-
-        if(dogRepo.findById(dogId).isPresent()) {
-            if (validateUser(dogId)) {
+    public DogTrick createTrick(DogTrick dogTrick) {
+        if(dogRepo.findById(dogTrick.getDogId()).isPresent()) {
                 return dogTrickRepo.save(dogTrick);
-            } else {
-                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
-            }
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Dog not found");
         }

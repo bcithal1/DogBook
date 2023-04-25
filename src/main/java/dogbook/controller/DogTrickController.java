@@ -1,12 +1,14 @@
 package dogbook.controller;
 
 import dogbook.model.DogTrick;
+import dogbook.service.AuthenticatedUserService;
 import dogbook.service.DogTrickService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -15,10 +17,13 @@ public class DogTrickController {
     @Autowired
     DogTrickService dogTrickService;
 
-    //create a trick
-    @PostMapping("/api/v1/tricks/{dogId}")
-    public ResponseEntity<DogTrick> createTrick(@PathVariable Integer dogId, @RequestBody @NotNull DogTrick dogTrick){
-        return ResponseEntity.ok(dogTrickService.createTrick(dogId, dogTrick.getTrickName()));
+    @Autowired
+    AuthenticatedUserService authenticatedUserService;
+
+    @PreAuthorize("@authenticatedUserService.validateDogOwnership(#dogTrick.getDogId())")
+    @PostMapping("/api/v1/tricks/")
+    public ResponseEntity<DogTrick> createTrick(@RequestBody @NotNull DogTrick dogTrick){
+        return ResponseEntity.ok(dogTrickService.createTrick(dogTrick));
     }
 
     //display all tricks
