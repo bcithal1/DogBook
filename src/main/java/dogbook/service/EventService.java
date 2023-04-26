@@ -187,4 +187,23 @@ public class EventService {
         }
         return null;
     }
+
+    public Event updateEvent(Event event, Integer eventId) {
+
+        Integer hostId = authenticatedUserService.getId();
+        Optional<Event> eventFound = eventRepo.findById(eventId);
+        if(eventFound.isPresent() && Objects.equals(event.getHostId(), hostId)){
+            eventFound.get().setEventDescription(event.getEventDescription());
+            eventFound.get().setEventLocation(event.getEventLocation());
+            eventFound.get().setEventTitle(event.getEventTitle());
+            eventFound.get().setDate(event.getDate());
+            eventFound.get().setTime(event.getTime());
+
+            return eventRepo.save(eventFound.get());
+
+        }
+
+        return null;
+
+    }
 }
