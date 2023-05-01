@@ -19,32 +19,34 @@ public class FriendRequestController {
 
     @PostMapping("/api/v1/friendrequest/{recipientId}")
     public ResponseEntity<FriendRequest> sendFriendRequest(@PathVariable Integer recipientId) {
-        return friendRequestService.sendFriendRequest(recipientId);
+        return ResponseEntity.ok(friendRequestService.sendFriendRequest(recipientId));
     }
 
     @GetMapping("/api/v1/friendrequest/sent")
     public ResponseEntity<List<FriendRequest>> getAllSentRequests() {
-        return friendRequestService.getSentRequestsByUserID();
+        return ResponseEntity.ok(friendRequestService.getSentRequestsByUserID());
     }
 
     @GetMapping("api/v1/friendrequest/received")
     public ResponseEntity<List<FriendRequest>> getAllReceivedRequests() {
-        return friendRequestService.getReceivedRequestsByUserID();
+        return ResponseEntity.ok(friendRequestService.getReceivedRequestsByUserID());
     }
 
     @DeleteMapping("api/v1/cancelrequest/{requestId}")
     public ResponseEntity<Friendship> deleteFriendRequest(@PathVariable Integer requestId) {
-        return friendRequestService.cancelFriendRequest(requestId);
+        friendRequestService.cancelFriendRequest(requestId);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/api/v1/acceptfriendship/{requestId}")
     public ResponseEntity acceptFriendRequest(@PathVariable Integer requestId) {
-        return friendRequestService.acceptRequest(requestId);
+        return ResponseEntity.ok(friendRequestService.acceptRequest(requestId));
     }
 
     @DeleteMapping("api/v1/rejectfriendship/{requestId}")
     public ResponseEntity rejectRequest(@PathVariable Integer requestId) {
-        return friendRequestService.rejectRequest(requestId);
+        friendRequestService.rejectRequest(requestId);
+        return ResponseEntity.ok().build();
     }
 
 

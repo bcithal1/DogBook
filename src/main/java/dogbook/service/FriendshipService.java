@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 
 import java.util.ArrayList;
@@ -25,38 +26,32 @@ public class FriendshipService {
     @Autowired
     AuthenticatedUserService authenticatedUserService;
 
-    public ResponseEntity<List<Friendship>> getFriendsList(Integer userId) {
-        ResponseEntity responseEntity;
+    public List<Friendship> getFriendsList(Integer userId) {
         List<Friendship> friendList = new ArrayList<>();
         Optional<User> targetUser = userService.getUserById(userId);
 
         if (targetUser.isPresent()) {
             friendList.addAll(friendshipRepo.findByPrimaryUserId(userId));
             friendList.addAll(friendshipRepo.findBySecondaryUserId(userId));
-            responseEntity = ResponseEntity.ok(friendList);
+            return friendList;
         } else {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
-        return responseEntity;
     }
 
-    public ResponseEntity<Friendship> endFriendship(Integer friendshipId) {
-        ResponseEntity responseEntity;
+    public void endFriendship(Integer friendshipId) {
         Integer currentUser = authenticatedUserService.getId();
         Optional<Friendship> doomedFriendship = friendshipRepo.findById(friendshipId);
 
         if (doomedFriendship.isPresent()) {
             if ((doomedFriendship.get().getPrimaryUserId().equals(currentUser) || doomedFriendship.get().getSecondaryUserId().equals(currentUser))) {
-                responseEntity = ResponseEntity.ok().build();
                 friendshipRepo.deleteById(friendshipId);
             } else {
-                responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "This user cannot update this friendship");
             }
         } else {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
-
-        return responseEntity;
     }
 
 

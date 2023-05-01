@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
@@ -28,102 +29,90 @@ public class FriendRequestService {
     @Autowired
     AuthenticatedUserService authenticatedUserService;
 
-    public ResponseEntity<FriendRequest> sendFriendRequest(Integer recipientId){
+    public FriendRequest sendFriendRequest(Integer recipientId){
 
-        ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
 
         if (validateRequest(currentUser, recipientId)){
             if (userService.getUserById(recipientId).isPresent()){
                 FriendRequest friendRequest = new FriendRequest(currentUser, recipientId);
                 friendRequest.setCreateDate(new Date());
-                friendRequestRepo.save(friendRequest);
-                responseEntity = ResponseEntity.ok(friendRequest);
+                return friendRequestRepo.save(friendRequest);
             } else {
-                responseEntity = ResponseEntity.notFound().build();
+                throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
             }
         }else{
-            responseEntity = ResponseEntity.badRequest().build();
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Malformed request");
         }
-
-        return responseEntity;
     }
 
-    public ResponseEntity<List<FriendRequest>> getSentRequestsByUserID(){
+    public List<FriendRequest> getSentRequestsByUserID(){
         Integer currentUser = authenticatedUserService.getId();
-        return ResponseEntity.ok(friendRequestRepo.findBySenderId(currentUser));
+        return friendRequestRepo.findBySenderId(currentUser);
     }
 
-    public ResponseEntity<List<FriendRequest>> getReceivedRequestsByUserID(){
+    public List<FriendRequest> getReceivedRequestsByUserID(){
         Integer currentUser = authenticatedUserService.getId();
-        return ResponseEntity.ok(friendRequestRepo.findByReceiverId(currentUser));
+        return friendRequestRepo.findByReceiverId(currentUser);
     }
 
-    public ResponseEntity cancelFriendRequest(Integer requestId){
-        ResponseEntity responseEntity;
+    public void cancelFriendRequest(Integer requestId){
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 
         if (friendRequest.isEmpty()) {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         } else if (!Objects.equals(friendRequest.get().getSenderId(), currentUser)) {
-            System.out.println(friendRequest.get().getSenderId());
-            responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
         } else {
             deleteFriendRequest(requestId);
-            responseEntity = ResponseEntity.ok().build();
         }
-        return responseEntity;
     }
 
     public Optional<FriendRequest> getFriendRequest(Integer requestId){
         return friendRequestRepo.findById(requestId);
     }
 
-    public ResponseEntity<FriendRequest> acceptRequest(Integer requestId){
+    public Friendship acceptRequest(Integer requestId){
 
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 
         if (friendRequest.isEmpty()) {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         } else if (!friendRequest.get().getReceiverId().equals(currentUser)) {
-            responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
         } else {
             Friendship newFriendship = new Friendship();
             newFriendship.setCreatedDate(new Date());
             newFriendship.setPrimaryUserId(friendRequest.get().getSenderId());
             newFriendship.setSecondaryUserId(friendRequest.get().getReceiverId());
-            friendshipRepo.save(newFriendship);
             deleteFriendRequest(requestId);
-            responseEntity = ResponseEntity.ok(newFriendship);
+            return friendshipRepo.save(newFriendship);
         }
-        return responseEntity;
 
     }
 
-    public ResponseEntity rejectRequest(Integer requestId){
-        ResponseEntity responseEntity;
+    public void rejectRequest(Integer requestId){
+
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 
         if (friendRequest.isEmpty()) {
-            responseEntity = ResponseEntity.notFound().build();
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         } else if (!friendRequest.get().getReceiverId().equals(currentUser)) {
-            responseEntity = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
         } else {
             deleteFriendRequest(requestId);
-            responseEntity = ResponseEntity.ok().build();
         }
-        return responseEntity;
     }
 
     public void deleteFriendRequest(Integer requestId){
         friendRequestRepo.deleteById(requestId);
     }
 
-    public boolean validateRequest(Integer senderId, Integer receiverId){
+    private boolean validateRequest(Integer senderId, Integer receiverId){
         //Hard stops someone from friending themselves before anything else is done.
         if(senderId.equals(receiverId))
             return false;
