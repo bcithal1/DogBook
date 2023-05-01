@@ -18,7 +18,7 @@ public class FriendRequestController {
     FriendRequestService friendRequestService;
 
     @PostMapping("/api/v1/friendrequest/{recipientId}")
-    public ResponseEntity sendFriendRequest(@PathVariable Integer recipientId) {
+    public ResponseEntity<FriendRequest> sendFriendRequest(@PathVariable Integer recipientId) {
         return friendRequestService.sendFriendRequest(recipientId);
     }
 

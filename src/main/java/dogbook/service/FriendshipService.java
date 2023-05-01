@@ -46,7 +46,7 @@ public class FriendshipService {
         Optional<Friendship> doomedFriendship = friendshipRepo.findById(friendshipId);
 
         if (doomedFriendship.isPresent()) {
-            if ((doomedFriendship.get().getFirstUser().equals(currentUser) || doomedFriendship.get().getSecondUser().equals(currentUser))) {
+            if ((doomedFriendship.get().getPrimaryUserId().equals(currentUser) || doomedFriendship.get().getSecondaryUserId().equals(currentUser))) {
                 responseEntity = ResponseEntity.ok().build();
                 friendshipRepo.deleteById(friendshipId);
             } else {

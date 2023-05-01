@@ -2,6 +2,7 @@ package dogbook.controller;
 
 import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class PhotoController {
         }
 
         return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(photo.get().getType()))
-            .body(photo.get().getData());
+                .contentType(MediaType.parseMediaType(photo.get().getType()))
+                .body(Base64.encodeBase64(photo.get().getData()));
     }
 }

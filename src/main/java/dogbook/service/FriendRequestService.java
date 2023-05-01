@@ -28,7 +28,7 @@ public class FriendRequestService {
     @Autowired
     AuthenticatedUserService authenticatedUserService;
 
-    public ResponseEntity sendFriendRequest(Integer recipientId){
+    public ResponseEntity<FriendRequest> sendFriendRequest(Integer recipientId){
 
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
@@ -38,7 +38,7 @@ public class FriendRequestService {
                 FriendRequest friendRequest = new FriendRequest(currentUser, recipientId);
                 friendRequest.setCreateDate(new Date());
                 friendRequestRepo.save(friendRequest);
-                responseEntity = ResponseEntity.ok().build();
+                responseEntity = ResponseEntity.ok(friendRequest);
             } else {
                 responseEntity = ResponseEntity.notFound().build();
             }
@@ -80,7 +80,7 @@ public class FriendRequestService {
         return friendRequestRepo.findById(requestId);
     }
 
-    public ResponseEntity acceptRequest(Integer requestId){
+    public ResponseEntity<FriendRequest> acceptRequest(Integer requestId){
 
         ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
@@ -93,11 +93,11 @@ public class FriendRequestService {
         } else {
             Friendship newFriendship = new Friendship();
             newFriendship.setCreatedDate(new Date());
-            newFriendship.setFirstUser(friendRequest.get().getSenderId());
-            newFriendship.setSecondUser(friendRequest.get().getReceiverId());
+            newFriendship.setPrimaryUserId(friendRequest.get().getSenderId());
+            newFriendship.setSecondaryUserId(friendRequest.get().getReceiverId());
             friendshipRepo.save(newFriendship);
             deleteFriendRequest(requestId);
-            responseEntity = ResponseEntity.ok().build();
+            responseEntity = ResponseEntity.ok(newFriendship);
         }
         return responseEntity;
 
@@ -144,10 +144,10 @@ public class FriendRequestService {
                 return false;
         }
         for (Friendship friendship : friendList){
-            if (friendship.getFirstUser().equals(receiverId)){
+            if (friendship.getPrimaryUserId().equals(receiverId)){
                 return false;
             }
-            if (friendship.getSecondUser().equals(receiverId)){
+            if (friendship.getSecondaryUserId().equals(receiverId)){
                 return false;
             }
         }

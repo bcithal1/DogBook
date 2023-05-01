@@ -19,9 +19,6 @@ public class Friendship{
     @Column
     private Integer secondaryUserId;
 
-    @Column
-    private Integer connectedRecord;
-
     public Friendship() {
     }
 
@@ -41,27 +38,20 @@ public class Friendship{
         this.createDate = createdDate;
     }
 
-    public Integer getFirstUser() {
+    public Integer getPrimaryUserId() {
         return primaryUserId;
     }
 
-    public void setFirstUser(Integer firstUser) {
+    public void setPrimaryUserId(Integer firstUser) {
         this.primaryUserId = firstUser;
     }
 
-    public Integer getSecondUser() {
+    public Integer getSecondaryUserId() {
         return secondaryUserId;
     }
 
-    public void setSecondUser(Integer secondUser) {
+    public void setSecondaryUserId(Integer secondUser) {
         this.secondaryUserId = secondUser;
     }
 
-    public Integer getConnectedRecord() {
-        return connectedRecord;
-    }
-
-    public void setConnectedRecord(Integer connectedRecord) {
-        this.connectedRecord = connectedRecord;
-    }
 }
