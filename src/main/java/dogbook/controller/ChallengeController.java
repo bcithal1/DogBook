@@ -1,6 +1,7 @@
 package dogbook.controller;
 
-import dogbook.model.Challenge;
+import
+        dogbook.model.Challenge;
 import dogbook.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
