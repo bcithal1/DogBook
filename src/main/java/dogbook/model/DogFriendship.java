@@ -3,9 +3,8 @@ package dogbook.model;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
-public class Friendship{
+public class DogFriendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,7 +18,7 @@ public class Friendship{
     @Column
     private Integer secondaryUserId;
 
-    public Friendship() {
+    public DogFriendship() {
     }
 
     public Integer getId() {
@@ -53,5 +52,4 @@ public class Friendship{
     public void setSecondaryUserId(Integer secondUser) {
         this.secondaryUserId = secondUser;
     }
-
 }
