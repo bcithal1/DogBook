@@ -5,6 +5,7 @@ import dogbook.model.Friendship;
 import dogbook.repository.FriendRequestRepo;
 import dogbook.repository.FriendshipRepo;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,7 +113,7 @@ public class FriendRequestService {
         friendRequestRepo.deleteById(requestId);
     }
 
-    private boolean validateRequest(Integer senderId, Integer receiverId){
+    private boolean validateRequest(@NotNull Integer senderId, @NotNull Integer receiverId){
         //Hard stops someone from friending themselves before anything else is done.
         if(senderId.equals(receiverId))
             return false;
