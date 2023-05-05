@@ -24,13 +24,13 @@ public class DogFriendRequestController {
     }
 
     @GetMapping("/api/v1/friendrequest/sent/{dogId}")
-    public ResponseEntity<List<FriendRequest>> getAllSentRequests(@PathVariable Integer dogId) {
-        return ResponseEntity.ok(dogFriendRequestService.getSentRequestsByDogID(dogId);
+    public ResponseEntity<List<DogFriendRequest>> getAllSentRequests(@PathVariable Integer dogId) {
+        return ResponseEntity.ok(dogFriendRequestService.getSentRequestsByDogID(dogId));
     }
 
     @GetMapping("api/v1/friendrequest/received/{dogId}")
-    public ResponseEntity<List<FriendRequest>> getAllReceivedRequests(@PathVariable Integer dogId) {
-        return ResponseEntity.ok(dogFriendRequestService.getSentRequestsByDogID(dogId);
+    public ResponseEntity<List<DogFriendRequest>> getAllReceivedRequests(@PathVariable Integer dogId) {
+        return ResponseEntity.ok(dogFriendRequestService.getReceivedRequestsByUserID(dogId));
     }
 
     @DeleteMapping("api/v1/cancelrequest/{requestId}")
