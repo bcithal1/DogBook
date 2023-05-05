@@ -76,7 +76,6 @@ public class FriendRequestService {
 
     public Friendship acceptRequest(Integer requestId){
 
-        ResponseEntity responseEntity;
         Integer currentUser = authenticatedUserService.getId();
         Optional<FriendRequest> friendRequest = getFriendRequest(requestId);
 

@@ -6,12 +6,11 @@ import dogbook.repository.DogFriendshipRepo;
 import dogbook.repository.DogOwnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DogFriendRequestService {
@@ -33,8 +32,6 @@ public class DogFriendRequestService {
 
     public DogFriendRequest sendFriendRequest(Integer recipientId, Integer senderId) {
 
-//        Integer currentUser = authenticatedUserService.getId();
-
         if (validateRequest(senderId, recipientId)){
             if (dogService.getDogById(recipientId).isPresent()){
                 DogFriendRequest dogFriendRequest = new DogFriendRequest(senderId, recipientId);
@@ -44,18 +41,77 @@ public class DogFriendRequestService {
                 throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
             }
         }else{
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Malformed request");
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
         }
     }
 
+    public void deleteFriendRequest(Integer requestId){
+        dogFriendRequestRepo.deleteById(requestId);
+    }
+
+    public void cancelFriendRequest(Integer requestId){
+        Optional<DogFriendRequest> dogFriendRequest = dogFriendRequestRepo.findById(requestId);
+
+        if (dogFriendRequest.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        } else if (validateOwner(dogFriendRequest.get().getSenderId())) {
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
+        } else {
+            deleteFriendRequest(requestId);
+        }
+    }
+
+    public void rejectRequest(Integer requestId){
+
+        Optional<DogFriendRequest> dogFriendRequest = dogFriendRequestRepo.findById(requestId);
+
+        if (dogFriendRequest.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        } else if (validateOwner(dogFriendRequest.get().getReceiverId())) {
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
+        } else {
+            deleteFriendRequest(requestId);
+        }
+    }
+
+    public DogFriendship acceptRequest(Integer requestId){
+
+        Optional<DogFriendRequest> dogFriendRequest = dogFriendRequestRepo.findById(requestId);
+
+        if (dogFriendRequest.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        } else if (validateOwner(dogFriendRequest.get().getReceiverId())) {
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
+        } else {
+            DogFriendship newFriendship = new DogFriendship();
+            newFriendship.setCreatedDate(new Date());
+            newFriendship.setPrimaryUserId(dogFriendRequest.get().getSenderId());
+            newFriendship.setSecondaryUserId(dogFriendRequest.get().getReceiverId());
+            deleteFriendRequest(requestId);
+            return dogFriendshipRepo.save(newFriendship);
+        }
+
+    }
+
+    public List<DogFriendRequest> getSentRequestsByDogID(Integer dogId){
+        return dogFriendRequestRepo.findBySenderId(dogId);
+    }
+
+    public List<DogFriendRequest> getReceivedRequestsByUserID(Integer dogId){
+        return dogFriendRequestRepo.findByReceiverId(dogId);
+    }
+
+
+
     private boolean validateRequest(Integer senderId, Integer receiverId) {
+        Integer currentUser = authenticatedUserService.getId();
 
         //Hard stops someone from having their dog friend themselves
         if (senderId.equals(receiverId))
             return false;
 
         //Hard stops a non-owner from sending the request.
-        if (!validateOwner(senderId))
+        if (!validateOwner(currentUser))
             return false;
 
         List<DogFriendRequest> senderRequests = dogFriendRequestRepo.findBySenderId(senderId);

@@ -17,22 +17,12 @@ public class DogFriendRequest {
     private Integer receiverId;
 
     @Column
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "dogId", updatable = false, insertable = false)
-    private List<DogOwner> senderOwners;
-
-    @Column
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "dogId", updatable = false, insertable = false)
-    private List<DogOwner> receiverOwners;
-
-    @Column
     private Date createDate;
 
     public DogFriendRequest() {
     }
 
-    public DogFriendRequest(Integer senderId, Integer receiverId,) {
+    public DogFriendRequest(Integer senderId, Integer receiverId) {
         this.senderId = senderId;
         this.receiverId = receiverId;
     }
@@ -71,14 +61,6 @@ public class DogFriendRequest {
 
     public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
-    }
-
-    public Integer getSenderOwnerId() {
-        return senderOwnerId;
-    }
-
-    public void setSenderOwnerId(Integer senderOwnerId) {
-        this.senderOwnerId = senderOwnerId;
     }
 }
 
