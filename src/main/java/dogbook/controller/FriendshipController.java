@@ -22,11 +22,12 @@ public class FriendshipController {
 
     @GetMapping("api/v1/friendlist/{userId}")
     public ResponseEntity<List<Friendship>> getFriendList(@PathVariable Integer userId) {
-        return friendshipService.getFriendsList(userId);
+        return ResponseEntity.ok(friendshipService.getFriendsList(userId));
     }
 
     @DeleteMapping("api/v1/friendlist/{friendshipId}")
     public ResponseEntity<Friendship> removeFriend(@PathVariable Integer friendshipId){
-        return friendshipService.endFriendship(friendshipId);
+        friendshipService.endFriendship(friendshipId);
+        return ResponseEntity.ok().build();
     }
 }
