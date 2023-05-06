@@ -18,7 +18,7 @@ public class DogFriendRequestController {
     DogFriendRequestService dogFriendRequestService;
 
     @PostMapping("/api/v1/dogfriend/{recipientId}/{senderId}")
-    public ResponseEntity<DogFriendRequest> sendFriendRequest(@PathVariable Integer recipientId,
+    public ResponseEntity<DogFriendRequest> sendDogFriendRequest(@PathVariable Integer recipientId,
                                                               @PathVariable Integer senderId) {
         return ResponseEntity.ok(dogFriendRequestService.sendFriendRequest(recipientId, senderId));
     }
@@ -33,19 +33,19 @@ public class DogFriendRequestController {
         return ResponseEntity.ok(dogFriendRequestService.getReceivedRequestsByUserID(dogId));
     }
 
-    @DeleteMapping("api/v1/cancelrequest/{requestId}")
-    public ResponseEntity<DogFriendship> deleteFriendRequest(@PathVariable Integer requestId) {
+    @DeleteMapping("api/v1/canceldogfriendrequest/{requestId}")
+    public ResponseEntity<DogFriendship> deleteDogFriendRequest(@PathVariable Integer requestId) {
         dogFriendRequestService.cancelFriendRequest(requestId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/api/v1/acceptfriendship/{requestId}")
-    public ResponseEntity acceptFriendRequest(@PathVariable Integer requestId) {
+    @PutMapping("/api/v1/acceptdogfriend/{requestId}")
+    public ResponseEntity acceptDogFriendRequest(@PathVariable Integer requestId) {
         return ResponseEntity.ok(dogFriendRequestService.acceptRequest(requestId));
     }
 
-    @DeleteMapping("api/v1/rejectfriendship/{requestId}")
-    public ResponseEntity rejectRequest(@PathVariable Integer requestId) {
+    @DeleteMapping("api/v1/rejectdogfriend/{requestId}")
+    public ResponseEntity rejectDogFriendRequest(@PathVariable Integer requestId) {
         dogFriendRequestService.rejectRequest(requestId);
         return ResponseEntity.ok().build();
     }
