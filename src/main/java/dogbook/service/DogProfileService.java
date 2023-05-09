@@ -62,6 +62,7 @@ public class DogProfileService {
         Optional<DogProfile> dogProfile = dogProfileRepo.findById(id);
         if (dogProfile.isPresent()){
             dogProfileRepo.save(request);
+            dogRepo.save(request.getDog());
             return request;
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Dog profile not found");
