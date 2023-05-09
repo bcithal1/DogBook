@@ -3,7 +3,6 @@ package dogbook.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -29,6 +28,11 @@ public class Event {
     private String eventTitle;
     @Column
     private String eventLocation;
+
+    @Column
+    private Double lat;
+    @Column
+    private Double lng;
     @Column
     private String eventDescription;
 
@@ -114,5 +118,21 @@ public class Event {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }

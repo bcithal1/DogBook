@@ -88,6 +88,10 @@ public class EventController {
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 
-
+    @DeleteMapping("/api/v1/event/delete/{eventId}")
+    public ResponseEntity<Event> deleteEventById(@PathVariable Integer eventId){
+        Event response = eventService.deleteEventById(eventId);
+        return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
+    }
 
 }
