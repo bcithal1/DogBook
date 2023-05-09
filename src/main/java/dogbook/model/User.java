@@ -32,8 +32,6 @@ public class User {
     @Column
     private LocalDate date_of_birth;
     @Column
-    private String gender;
-    @Column
     @ElementCollection
     private List<Integer> photoIds;
 
@@ -89,14 +87,6 @@ public class User {
 
     public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Set<UserChallengeRelation> getUserChallengeRelations() {

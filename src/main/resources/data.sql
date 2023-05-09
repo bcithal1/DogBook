@@ -1,48 +1,120 @@
 ----HUMANS----
-INSERT INTO USERS (EMAIL, FULL_NAME, GENDER)
-VALUES ('HHill53@aol.com', 'Hank Rutherford Hill', 1);
+INSERT INTO USERS (EMAIL, FULL_NAME)
+VALUES ('HHill53@aol.com', 'Hank Rutherford Hill');
 
-INSERT INTO USERS (EMAIL, FULL_NAME, GENDER)
-VALUES ('lonleysolider@yahoo.com', 'Bill Dautreive', 0);
+INSERT INTO USERS (EMAIL, FULL_NAME)
+VALUES ('lonleysolider@yahoo.com', 'Bill Dautreive');
 
-INSERT INTO USERS (EMAIL, FULL_NAME, GENDER)
-VALUES ('RShackleford@DaleDeadbug.ru', 'Rusty Shackleford', 0);
+INSERT INTO USERS (EMAIL, FULL_NAME)
+VALUES ('RShackleford@DaleDeadbug.ru', 'Rusty Shackleford');
 
-INSERT INTO USERS (EMAIL, FULL_NAME, GENDER)
-VALUES ('numba1sub4ever@aol.com', 'Peggy Hill', 1);
+INSERT INTO USERS (EMAIL, FULL_NAME)
+VALUES ('numba1sub4ever@aol.com', 'Peggy Hill');
 
-INSERT INTO USERS (EMAIL, FULL_NAME, GENDER)
-VALUES ('faithful4ever@yahoo.com', 'Nancy Gribble', 1);
+INSERT INTO USERS (EMAIL, FULL_NAME)
+VALUES ('faithful4ever@yahoo.com', 'Nancy Gribble');
 
-INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME, GENDER)
-VALUES ('Lixxark', 'bcithal1@gmail.com', 'Brian Ithal', 0);
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('Lixxark', 'bcithal2@gmail.com', 'Brian Ithal');
 
+
+----CREATE USER_PROFILES----
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (1, 'I sell propane and propane accessories', 8);
+
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (2, 'I am so lonely. I miss LANORE', 9);
+
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (3, 'My god Bill, you are so lonely!', 10);
+
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (4, 'Estoy aquí para comer muchas de tus perros', 11);
+
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (5, 'Weather Girl News Anchor at Channel 84', 12);
+
+INSERT INTO USER_PROFILE(ID, ABOUT_SECTION, PROFILE_PHOTO_ID)
+VALUES (6, 'I am only here so users can test stuff', 14);
+
+----USER_FRIENDSHIPS----
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 6, 1);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 6, 2);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 6, 3);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 6, 4);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 6, 5);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 1, 2);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 1, 4);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 2, 4);
+
+INSERT INTO FRIENDSHIP(CREATE_DATE, PRIMARY_USER_ID, SECONDARY_USER_ID)
+VALUES ('2023-05-05', 3, 5);
 
 ----GOOD_BOYES_AND_GIRLES----
---breed_Id is fake, and won't work with API correctly
+--breed_Id is fake, and won't work with API correctly--
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Buddy', 3, 'Golden Retriever', 1, 0, TRUE, 4, 70);
+VALUES ('Buddy', 3, 'Golden Retriever', 1, 0, TRUE, 3, 70);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Bella', 0, 'Labrador Retriever', 2, 1, TRUE, 4, 65);
+VALUES ('Bella', 0, 'Labrador Retriever', 2, 1, TRUE, 3, 65);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Max', 4, 'German Shepherd', 3, 0, TRUE, 5, 1195);
+VALUES ('Max', 4, 'German Shepherd', 3, 0, TRUE, 4, 1195);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
 VALUES ('Daisy', 2, 'Poodle', 4, 1, TRUE, 1, 10);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Charlie', 3, 'Beagle', 5, 0, FALSE, 3, 30);
+VALUES ('Charlie', 3, 'Beagle', 5, 0, FALSE, 2, 30);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Molly', 6, 'Bulldog', 6, 1, TRUE, 3, 40);
+VALUES ('Molly', 6, 'Bulldog', 6, 1, TRUE, 2, 40);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
 VALUES ('Ladybird', 16, 'Georgia Bloodhound', 7, 0, FALSE, 3, 115);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Rika', 2, 'Australian Cattle Dog', 8, 1, TRUE, 3, 65);
+VALUES ('Rika', 2, 'Australian Cattle Dog', 8, 1, TRUE, 2, 60);
+
+----DOG_PROFILES----
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (1, 1, 1, 'Friendly', 'Buddy is a friendly and playful dog, who loves to run and fetch.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (2, 2, 2, 'Energetic', 'Bella is an energetic and loving Labrador Retriever who enjoys swimming and playing fetch.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (3, 3, 3, 'Protective', 'Max is a loyal and protective German Shepherd, he is definitely not a bear.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (4, 4, 4, 'Intelligent', 'Daisy is an intelligent and friendly Poodle who loves to learn new tricks and enjoys a good grooming session.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (5, 5, 5, 'Curious', 'Charlie is a curious and energetic Beagle, always ready to explore the world and play with other dogs.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (6, 6, 6, 'Affectionate', 'Molly is an affectionate and gentle Bulldog, she loves to cuddle and get belly rubs.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (7, 7, 7, 'Old', 'Lady Bird is named after the wife of former President Lyndon B. Johnson.');
+
+INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
+VALUES (13, 8, 8, 'TOO Energetic', 'She is my baby and hunts turkeys and dogs smaller than her.');
 
 ----DOG_FRIEND_REQUEST----
 INSERT INTO DOG_FRIEND_REQUEST (Sender_ID, Receiver_ID, create_Date)
@@ -104,28 +176,3 @@ VALUES (4, 7, 1);
 
 INSERT INTO Dog_Owner (user_Id, dog_Id, access_Level)
 VALUES (6, 8, 0);
-
-----DOG_PROFILES----
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (1, 1, 1, 'Friendly', 'Buddy is a friendly and playful dog, who loves to run and fetch.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (2, 2, 2, 'Energetic', 'Bella is an energetic and loving Labrador Retriever who enjoys swimming and playing fetch.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (3, 3, 3, 'Protective', 'Max is a loyal and protective German Shepherd, he is definitely not a bear.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (4, 4, 4, 'Intelligent', 'Daisy is an intelligent and friendly Poodle who loves to learn new tricks and enjoys a good grooming session.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (5, 5, 5, 'Curious', 'Charlie is a curious and energetic Beagle, always ready to explore the world and play with other dogs.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (6, 6, 6, 'Affectionate', 'Molly is an affectionate and gentle Bulldog, she loves to cuddle and get belly rubs.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (7, 7, 7, 'Old', 'Lady Bird is named after the wife of former President Lyndon B. Johnson.');
-
-INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)
-VALUES (13, 8, 8, 'TOO Energetic', 'She is my baby and hunts turkeys and dogs smaller than her.');

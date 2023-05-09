@@ -45,7 +45,6 @@ public class UserService {
             userFound.get().setDisplayName(user.getDisplayName());
             userFound.get().setFullName(user.getFullName());
             userFound.get().setEmail(user.getEmail());
-            userFound.get().setGender(user.getGender());
             userFound.get().setDate_of_birth(user.getDate_of_birth());
             userFound.get().setPhoneNumber(user.getPhoneNumber());
             return userRepo.save(userFound.get());

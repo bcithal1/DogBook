@@ -2,6 +2,7 @@ package dogbook.model;
 
 import javax.persistence.*;
 
+@Entity
 public class UserProfile {
 
     @Id
@@ -10,11 +11,11 @@ public class UserProfile {
     Integer profilePhotoId;
     @Column
     Integer bannerPhotoId;
-    @OneToOne
-    @JoinColumn(name="userId")
-    User user;
     @Column
-    String aboutMe;
+    String aboutSection;
+
+    public UserProfile() {
+    }
 
     public UserProfile(Integer id) {
         this.id = id;
@@ -44,19 +45,11 @@ public class UserProfile {
         this.bannerPhotoId = bannerPhotoId;
     }
 
-    public User getUser() {
-        return user;
+    public String getAboutSection() {
+        return aboutSection;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
+    public void setAboutSection(String aboutSection) {
+        this.aboutSection = aboutSection;
     }
 }

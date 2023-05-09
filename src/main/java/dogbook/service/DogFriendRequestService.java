@@ -30,7 +30,7 @@ public class DogFriendRequestService {
     @Autowired
     DogService dogService;
 
-    public DogFriendRequest sendFriendRequest(Integer recipientId, Integer senderId) {
+    public DogFriendRequest sendFriendRequest(Integer senderId, Integer recipientId) {
 
         if (validateRequest(senderId, recipientId)){
             if (dogService.getDogById(recipientId).isPresent()){
@@ -101,8 +101,6 @@ public class DogFriendRequestService {
         return dogFriendRequestRepo.findByReceiverId(dogId);
     }
 
-
-
     private boolean validateRequest(Integer senderId, Integer receiverId) {
         Integer currentUser = authenticatedUserService.getId();
 
@@ -111,7 +109,7 @@ public class DogFriendRequestService {
             return false;
 
         //Hard stops a non-owner from sending the request.
-        if (!validateOwner(currentUser))
+        if (!validateOwner(senderId))
             return false;
 
         List<DogFriendRequest> senderRequests = dogFriendRequestRepo.findBySenderId(senderId);
@@ -122,7 +120,7 @@ public class DogFriendRequestService {
         friendList.addAll(dogFriendshipRepo.findBySecondaryUserId(senderId));
 
         for (DogFriendRequest sentRequests : senderRequests) {
-            if (sentRequests.getReceiverId().equals(receiverId))
+            if (sentRequests.getReceiverId().equals(senderId))
                 return false;
         }
         for (DogFriendRequest receivedRequests : receiverRequests) {
@@ -145,7 +143,7 @@ public class DogFriendRequestService {
         Integer currentUser = authenticatedUserService.getId();
 
         for (DogOwner owner : ownerInfo) {
-            if (owner.getId().equals(currentUser))
+            if (owner.getUserId().equals(currentUser))
                 return true;
         }
         return false;

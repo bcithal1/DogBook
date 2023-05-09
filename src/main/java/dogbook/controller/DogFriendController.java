@@ -22,12 +22,12 @@ public class DogFriendController {
     @Autowired
     DogFriendshipService dogFriendshipService;
 
-    @GetMapping("api/v1/puppypal/{dogId}")
+    @GetMapping("api/v1/puppypals/{dogId}")
     public ResponseEntity<List<DogFriendship>> getFriendList(@PathVariable Integer dogId) {
         return ResponseEntity.ok(dogFriendshipService.getFriendsList(dogId));
     }
 
-    @DeleteMapping("api/v1/puppypal/{friendshipId}")
+    @DeleteMapping("api/v1/puppypals/{friendshipId}")
     public ResponseEntity<Friendship> removeFriend(@PathVariable Integer friendshipId){
         dogFriendshipService.endFriendship(friendshipId);
         return ResponseEntity.ok().build();

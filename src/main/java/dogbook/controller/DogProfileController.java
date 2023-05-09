@@ -1,19 +1,14 @@
 package dogbook.controller;
 
 import dogbook.model.DogProfile;
-import dogbook.model.Photo;
-import dogbook.repository.DogProfileRepo;
 import dogbook.service.DogProfileService;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class DogProfileController {
