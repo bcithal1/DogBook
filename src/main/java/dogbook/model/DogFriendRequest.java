@@ -2,6 +2,7 @@ package dogbook.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class DogFriendRequest {
@@ -56,6 +57,10 @@ public class DogFriendRequest {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
     }
 }
 

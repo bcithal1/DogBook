@@ -1,7 +1,6 @@
 package dogbook.controller;
 
 import dogbook.model.DogProfile;
-import dogbook.repository.DogProfileRepo;
 import dogbook.service.DogProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +36,11 @@ public class DogProfileController {
         return ResponseEntity.ok(dogProfileService.getDogProfileByDogId(dogId));
     }
 
+    @GetMapping("/api/v1/dogs/profile/picture/{dogId}")
+    public ResponseEntity<byte[]> getDogProfilePicture(@PathVariable Integer dogId){
+        return dogProfileService.getDogProfilePhoto(dogId);
+    }
+
     @PreAuthorize("@authenticatedUserService.validateDogOwnership(#dogProfileRequest.getDog().getId())")
     @PutMapping("/api/v1/dogs/profiles/{id}")
     public ResponseEntity<DogProfile> updateDogProfile(@PathVariable Integer id, @RequestBody DogProfile dogProfileRequest){
@@ -49,4 +53,6 @@ public class DogProfileController {
         dogProfileService.deleteDogProfile(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

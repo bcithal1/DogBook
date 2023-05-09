@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -24,8 +25,6 @@ public class User {
     @Column
     private String email;
     @Column
-    private String address;
-    @Column
     private String phoneNumber;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -33,14 +32,11 @@ public class User {
     @Column
     private LocalDate date_of_birth;
     @Column
-    private String gender;
-    @Column
-    private String profilePhotoUrl;
-
+    @ElementCollection
+    private List<Integer> photoIds;
 
     @OneToMany(mappedBy = "user")
     Set<UserChallengeRelation> userChallengeRelations = new HashSet<>();
-
 
     @OneToMany(mappedBy = "user")
     private Set<EventUserRelations> eventUserRelations = new HashSet<>();
@@ -77,14 +73,6 @@ public class User {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -99,22 +87,6 @@ public class User {
 
     public void setDate_of_birth(LocalDate date_of_birth) {
         this.date_of_birth = date_of_birth;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getProfilePhotoUrl() {
-        return profilePhotoUrl;
-    }
-
-    public void setProfilePhotoUrl(String profilePhotoUrl) {
-        this.profilePhotoUrl = profilePhotoUrl;
     }
 
     public Set<UserChallengeRelation> getUserChallengeRelations() {
@@ -133,5 +105,11 @@ public class User {
         this.eventUserRelations = eventUserRelations;
     }
 
+    public List<Integer> getPhotoIds() {
+        return photoIds;
+    }
 
+    public void setPhotoIds(List<Integer> photoIds) {
+        this.photoIds = photoIds;
+    }
 }

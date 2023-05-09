@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DogOwnerRepo extends JpaRepository<DogOwner,Integer> {
+public interface    DogOwnerRepo extends JpaRepository<DogOwner,Integer> {
     List<DogOwner> findAllByUserId(Integer userId);
     List<DogOwner> findAllByDogId(Integer dogId);
 }
