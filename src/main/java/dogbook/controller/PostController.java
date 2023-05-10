@@ -27,6 +27,12 @@ public class PostController {
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 
+    @GetMapping("/api/v1/userposts/{userId}")
+    public ResponseEntity<List<Post>> getAllPostsByUserId(@PathVariable Integer userId) {
+        List<Post> response  = postService.getPostsByUserId(userId);
+        return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
+    }
+
     @GetMapping("/api/v1/posts/likes")
     public ResponseEntity<List<UserLikedPosts>> getLikesByUserId() {
         return postService.getLikesByUserID();
