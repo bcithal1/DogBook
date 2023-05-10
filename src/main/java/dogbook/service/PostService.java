@@ -34,18 +34,21 @@ public class PostService {
 
     public Post createPost(Post post) {
         post.setDateTime(new Date());
+        post.setAuthorId(authenticatedUserService.getId());
         return postRepo.save(post);
     }
 
     public Post getPostById(Integer postId) {
         Post post = null;
-
         if (postRepo.findById(postId).isPresent())
             post = postRepo.findById(postId).get();
 
         return post;
     }
 
+    public List<Post> getPostsByUserId(Integer authorId){
+        return postRepo.findByAuthorId(authorId);
+    }
 
     public Post updatePostById(Integer postId, Post post) {
         Optional<Post> postFound = postRepo.findById(postId);
@@ -125,7 +128,6 @@ public class PostService {
 
         userLikedPostsRepo.deleteById(postId);
     }
-
 
     public Post addComment(Integer postId, Post comment) {
         Optional<Post> post = postRepo.findById(postId);
