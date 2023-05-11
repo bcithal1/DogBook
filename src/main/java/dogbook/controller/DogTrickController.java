@@ -21,7 +21,7 @@ public class DogTrickController {
     AuthenticatedUserService authenticatedUserService;
 
     @PreAuthorize("@authenticatedUserService.validateDogOwnership(#dogTrick.getDogId())")
-    @PostMapping("/api/v1/tricks/")
+    @PostMapping("/api/v1/tricks")
     public ResponseEntity<DogTrick> createTrick(@RequestBody @NotNull DogTrick dogTrick){
         return ResponseEntity.ok(dogTrickService.createTrick(dogTrick));
     }

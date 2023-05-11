@@ -33,6 +33,8 @@ public class Dog {
     @Column
     private Integer weightLbs;
     @Column
+    private String[] tricks;
+    @Column
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "dogId", updatable = false, insertable = false)
     private List<DogOwner> owners;
@@ -102,6 +104,14 @@ public class Dog {
 
     public void setSize(Size size){
         this.size = size;
+    }
+
+    public String[] getTricks() {
+        return tricks;
+    }
+
+    public void setTricks(String[] tricks) {
+        this.tricks = tricks;
     }
 
     public Integer getWeightLbs() {
