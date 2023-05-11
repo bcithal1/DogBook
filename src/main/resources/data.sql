@@ -1,6 +1,6 @@
 ----HUMANS----
 INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('HHill53@aol.com', 'Hank Rutherford Hill');
+VALUES ('HHill53@aol.com', 'Hank Hill');
 
 INSERT INTO USERS (EMAIL, FULL_NAME)
 VALUES ('lonleysolider@yahoo.com', 'Bill Dautreive');
