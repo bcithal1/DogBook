@@ -1,14 +1,17 @@
 package dogbook.service;
 
 import dogbook.model.Dog;
+import dogbook.model.Friendship;
 import dogbook.model.Photo;
 import dogbook.model.User;
+import dogbook.repository.FriendshipRepo;
 import dogbook.repository.PhotoRepo;
 import dogbook.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +22,9 @@ public class UserService {
 
     @Autowired
     PhotoRepo photoRepo;
+
+    @Autowired
+    FriendshipRepo friendshipRepo;
 
     @Autowired
     AuthenticatedUserService authenticatedUserService;
@@ -36,7 +42,13 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        return userRepo.save(user);
+        Friendship defaultFriendship = new Friendship();
+        userRepo.save(user);
+        defaultFriendship.setPrimaryUserId(6);
+        defaultFriendship.setSecondaryUserId(user.getId());
+        defaultFriendship.setCreatedDate(new Date());
+        friendshipRepo.save(defaultFriendship);
+        return user;
     }
 
     public User updateUser(Integer id, User user) {

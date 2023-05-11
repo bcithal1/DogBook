@@ -35,6 +35,7 @@ public class PhotoInitializer {
                 importPhoto("samplephotos/12Nancy.png", photoRepo);
                 importPhoto("samplephotos/13Rika.jpeg", photoRepo);
                 importPhoto("samplephotos/14Brian.jpg", photoRepo);
+                importPhoto("samplephotos/15default.webp", photoRepo);
             } catch (IOException e) {
                 e.printStackTrace();
             }

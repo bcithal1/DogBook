@@ -31,6 +31,7 @@ public class UserProfileService {
             if (userProfileRepo.existsById(userId)) {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "User profile already exists");
             } else {
+                userProfile.setProfilePhotoId(15);
                 return userProfileRepo.save(userProfile);
             }
         } else {
