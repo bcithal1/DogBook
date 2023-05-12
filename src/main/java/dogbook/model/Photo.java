@@ -19,6 +19,7 @@ public class Photo {
     @Column
     private String type;
     @Column
+    @Lob
     private byte[] data;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
