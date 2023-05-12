@@ -14,7 +14,6 @@ public interface EventUserMapper {
     @Mapping(target="id", expression = "java(java.util.UUID.randomUUID())")
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target="userName", source ="user.fullName")
-    @Mapping(target="profilePhotoUrl", source ="user.profilePhotoUrl")
     @Mapping(target="eventId", source ="event.id")
     @Mapping(target="goingStatus", source="eventUserRelations.goingStatus")
     @Mapping(target = "eventAccessLevel", source="eventUserRelations.eventaccessLevel")
