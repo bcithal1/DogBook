@@ -3,8 +3,6 @@ spring:
     platform: postgres
     url: jdbc:${DATABASE_URL}
     driverClassName: org.postgresql.Driver
-    username: ${PGUSER}
-    password: ${PGPASSWORD}
   jpa:
     database: POSTGRESQL
     hibernate:
