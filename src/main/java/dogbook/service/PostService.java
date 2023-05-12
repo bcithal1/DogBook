@@ -46,8 +46,11 @@ public class PostService {
         return post;
     }
 
-    public List<Post> getPostsByUserId(Integer authorId){
-        return postRepo.findByAuthorId(authorId);
+    public List<Post> getPostByUserId(Integer userId) {
+
+        if (postRepo.findByAuthorId(userId).isPresent()) {
+            return postRepo.findByAuthorId(userId).get();
+        } else {throw new HttpClientErrorException(HttpStatus.NOT_FOUND);}
     }
 
     public Post updatePostById(Integer postId, Post post) {
