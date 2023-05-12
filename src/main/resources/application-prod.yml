@@ -6,6 +6,7 @@ spring:
     password: ${PGPASSWORD}
     driverClassName: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: POSTGRESQL
     hibernate:
       ddl-auto: update
