@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    defer-datasource-initialization: true
+
+api:
+  breeds:
+    url: https://api.thedogapi.com
+    key: live_jwsuJvqZvCQdSK5meRkUy9dlcSG32DW3M7axvtgWUlpQlUfwbTvyg1K1rRMAeJ7C

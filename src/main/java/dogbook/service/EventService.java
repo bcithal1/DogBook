@@ -206,4 +206,19 @@ public class EventService {
         return null;
 
     }
+
+    public Event deleteEventById(Integer eventId) {
+
+        Integer hostId = authenticatedUserService.getId();
+        Optional<Event> eventFound = eventRepo.findById(eventId);
+        if(eventFound.isPresent() && Objects.equals(eventFound.get().getHostId(), hostId)){
+
+            List<Integer> relationsIdList =  eventUserRelationRepo.findByEventId(eventId).stream().map(EventUserRelations::getId).collect(Collectors.toList());
+            eventUserRelationRepo.deleteAllById(relationsIdList);
+
+            return eventFound.get();
+        }
+
+        return null;
+    }
 }

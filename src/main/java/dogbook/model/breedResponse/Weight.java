@@ -2,7 +2,6 @@ package dogbook.model.breedResponse;
 
 public class Weight {
     private String imperial;
-    private String metric;
 
     public String getImperial() {
         return imperial;
@@ -12,11 +11,4 @@ public class Weight {
         this.imperial = imperial;
     }
 
-    public String getMetric() {
-        return metric;
-    }
-
-    public void setMetric(String metric) {
-        this.metric = metric;
-    }
 }
