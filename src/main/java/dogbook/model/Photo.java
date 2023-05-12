@@ -18,7 +18,7 @@ public class Photo {
     private String name;
     @Column
     private String type;
-    @Column
+    @Column(columnDefinition="text")
     @Lob
     private byte[] data;
     @Column(nullable = false, updatable = false)
