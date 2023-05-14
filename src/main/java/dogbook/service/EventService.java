@@ -3,12 +3,8 @@ package dogbook.service;
 import dogbook.enums.EventAccessLevel;
 import dogbook.enums.EventInvitedStatus;
 import dogbook.enums.GoingStatus;
-import dogbook.model.Event;
-import dogbook.model.EventUserRelations;
-import dogbook.model.User;
-import dogbook.repository.EventRepo;
-import dogbook.repository.EventUserRelationRepo;
-import dogbook.repository.UserRepo;
+import dogbook.model.*;
+import dogbook.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +26,12 @@ public class EventService {
 
     @Autowired
     EventUserRelationRepo eventUserRelationRepo;
+
+    @Autowired
+    DogOwnerRepo dogOwnerRepo;
+
+    @Autowired
+    DogRepo dogRepo;
 
     public Event createEvent(Event event) {
 
@@ -58,11 +60,17 @@ public class EventService {
         Optional<Event> eventFound = eventRepo.findById(eventId);
         // now make sure the event we are sending invite out for is actually hosted by the current user,
         // we can check relations and see if the accessLevel is Host with hostID and eventId filtered.
+
         List<EventUserRelations> guestListFound = eventUserRelationRepo.findAll().stream()
                 .filter(relation -> Objects.equals(relation.getEvent().getEventId(), eventId) && Objects.equals(relation.getUser().getId(), hostId))
                 .collect(Collectors.toList());
 
-        if (userFound.isPresent() && eventFound.isPresent() && !guestListFound.isEmpty()) {
+        // we need to know if the userId has already been invited to the same event or not, if yes don't create the relation object
+        List<EventUserRelations> alreadyInvitedUserList = eventUserRelationRepo.findAll().stream()
+                .filter(relation -> Objects.equals(relation.getEvent().getEventId(), eventId) && Objects.equals(relation.getUser().getId(), userId))
+                .collect(Collectors.toList());
+
+        if (userFound.isPresent() && eventFound.isPresent() && !guestListFound.isEmpty() && alreadyInvitedUserList.isEmpty()) {
 
             if (guestListFound.get(0).getEventaccessLevel() == EventAccessLevel.EVENT_HOST) {
                 // now create a new event-user relationship that is linking to the invited user
@@ -197,8 +205,9 @@ public class EventService {
             eventFound.get().setEventLocation(event.getEventLocation());
             eventFound.get().setEventTitle(event.getEventTitle());
             eventFound.get().setDate(event.getDate());
+            eventFound.get().setLat(event.getLat());
+            eventFound.get().setLng(event.getLng());
             eventFound.get().setTime(event.getTime());
-
             return eventRepo.save(eventFound.get());
 
         }
@@ -220,5 +229,24 @@ public class EventService {
         }
 
         return null;
+    }
+
+    public List<Dog> getAllDogsInEvent(Integer eventId) {
+        Integer hostId = authenticatedUserService.getId();
+        Optional<Event> eventFound = eventRepo.findById(eventId);
+        Optional<User> userFound = userRepo.findById(hostId);
+//        get the list of users that are in the event
+        List<EventUserRelations> eventUserRelationsList = eventUserRelationRepo.findAll().stream().filter((eventUserRelations ->Objects.equals(eventUserRelations.getEvent().getEventId(), eventId) )).collect(Collectors.toList());
+//        get all the dogs id these user own
+        List<DogOwner> dogOwnersList =  eventUserRelationsList.stream().flatMap(eventUserRelations -> dogOwnerRepo.findAllByUserId(eventUserRelations.getUser().getId()).stream()).collect(Collectors.toList());
+//        get all the dogs in the event
+        List<Dog> dogListInEvent = dogOwnersList.stream().map(dogOwner -> dogRepo.findById(dogOwner.getDogId()).get()).collect(Collectors.toList());
+
+
+        if(eventFound.isPresent() && userFound.isPresent()){
+            return dogListInEvent;
+        }
+        return null;
+
     }
 }
