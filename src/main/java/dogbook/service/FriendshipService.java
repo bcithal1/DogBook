@@ -1,18 +1,18 @@
 package dogbook.service;
 
+import dogbook.model.Dog;
 import dogbook.model.Friendship;
 import dogbook.model.User;
+import dogbook.model.UserWithDogs;
 import dogbook.repository.FriendshipRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendshipService {
@@ -22,6 +22,9 @@ public class FriendshipService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DogService dogService;
 
     @Autowired
     AuthenticatedUserService authenticatedUserService;
@@ -54,5 +57,37 @@ public class FriendshipService {
         }
     }
 
+    public List<UserWithDogs> getFriendsofFriendsIds() {
+        Integer currentUser = authenticatedUserService.getId();
+        List<Friendship> userFriendList = getFriendsList(1);
+        List<Friendship> masterList = new ArrayList<>();
+        Set<Integer> uniqueUserIds = new HashSet<>();
+        List<UserWithDogs> userWithDogsList = new ArrayList<>();
+
+        for (Friendship friendship : userFriendList) {
+            masterList.addAll(getFriendsList(friendship.getSecondaryUserId()));
+            masterList.addAll(getFriendsList(friendship.getPrimaryUserId()));
+        }
+        for (Friendship friendship : masterList) {
+            Integer primaryId = friendship.getPrimaryUserId();
+            Integer secondaryId = friendship.getSecondaryUserId();
+
+            if (!primaryId.equals(currentUser)) {
+                uniqueUserIds.add(primaryId);
+            }
+
+            if (!secondaryId.equals(currentUser)) {
+                uniqueUserIds.add(secondaryId);
+            }
+        }
+
+        for (Integer userId : uniqueUserIds) {
+            User user = userService.getUserById(userId).get();
+            List<Dog> dogs = dogService.getAllDogsByUserId(userId);
+            userWithDogsList.add(new UserWithDogs(user, dogs));
+        }
+
+        return userWithDogsList;
+    }
 
 }
