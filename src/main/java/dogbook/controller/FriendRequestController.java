@@ -1,6 +1,7 @@
 package dogbook.controller;
 
 import dogbook.model.FriendRequest;
+import dogbook.model.FriendRequestWithUser;
 import dogbook.model.Friendship;
 import dogbook.service.FriendRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,8 @@ public class FriendRequestController {
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("api/v1/friendrequest/received/full")
+    public ResponseEntity<List<FriendRequestWithUser>> getAllReceivedRequestsFullInfo() {
+        return ResponseEntity.ok(friendRequestService.getFriendRequestWithUser());
+    }
 }

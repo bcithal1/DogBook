@@ -1,14 +1,12 @@
 package dogbook.service;
 
-import dogbook.model.FriendRequest;
-import dogbook.model.Friendship;
+import dogbook.model.*;
 import dogbook.repository.FriendRequestRepo;
 import dogbook.repository.FriendshipRepo;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -26,6 +24,9 @@ public class FriendRequestService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserProfileService userProfileService;
 
     @Autowired
     AuthenticatedUserService authenticatedUserService;
@@ -55,6 +56,19 @@ public class FriendRequestService {
     public List<FriendRequest> getReceivedRequestsByUserID(){
         Integer currentUser = authenticatedUserService.getId();
         return friendRequestRepo.findByReceiverId(currentUser);
+    }
+
+    public List<FriendRequestWithUser> getFriendRequestWithUser(){
+        List<FriendRequest> friendRequests = getReceivedRequestsByUserID();
+        List<FriendRequestWithUser> friendRequestWithUserList = new ArrayList<>();
+        for(FriendRequest friendRequest : friendRequests){
+            Integer senderId = friendRequest.getSenderId();
+            User user = userService.getUserById(senderId).get();
+            UserProfile userProfile = userProfileService.getUserProfile(senderId);
+            FriendRequestWithUser tmp = new FriendRequestWithUser(friendRequest, user, userProfile);
+            friendRequestWithUserList.add(tmp);
+        }
+        return friendRequestWithUserList;
     }
 
     public void cancelFriendRequest(Integer requestId){

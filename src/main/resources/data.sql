@@ -1,18 +1,18 @@
 ----HUMANS----
-INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('HHill53@aol.com', 'Hank Hill');
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('Hank the Tank', 'HHill53@aol.com', 'Hank Hill');
 
-INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('lonleysolider@yahoo.com', 'Bill Dautreive');
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('The Bulldozer', 'lonleysolider@yahoo.com', 'Bill Dautreive');
 
-INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('RShackleford@DaleDeadbug.ru', 'Rusty Shackleford');
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('Dale', 'RShackleford@DaleDeadbug.ru', 'Rusty Shackleford');
 
-INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('numba1sub4ever@aol.com', 'Peggy Hill');
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('The Pegster', 'numba1sub4ever@aol.com', 'Peggy Hill');
 
-INSERT INTO USERS (EMAIL, FULL_NAME)
-VALUES ('faithful4ever@yahoo.com', 'Nancy Gribble');
+INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
+VALUES ('WthrGal', 'faithful4ever@yahoo.com', 'Nancy Gribble');
 
 INSERT INTO USERS (DISPLAY_NAME, EMAIL, FULL_NAME)
 VALUES ('Lixxark', 'bcithal2@gmail.com', 'Brian Ithal');
@@ -68,28 +68,28 @@ VALUES ('2023-05-05', 3, 5);
 ----GOOD_BOYES_AND_GIRLES----
 --breed_Id is fake, and won't work with API correctly--
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Buddy', 3, 'Golden Retriever', 1, 0, TRUE, 3, 70);
+VALUES ('Buddy', 3, 'Golden Retriever', 121, 0, TRUE, 3, 70);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Bella', 0, 'Labrador Retriever', 2, 1, TRUE, 3, 65);
+VALUES ('Bella', 0, 'Labrador Retriever', 149, 1, TRUE, 3, 65);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Max', 4, 'German Shepherd', 3, 0, TRUE, 4, 1195);
+VALUES ('Max', 4, 'German Shepherd', 115, 0, TRUE, 4, 1195);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Daisy', 2, 'Poodle', 4, 1, TRUE, 1, 10);
+VALUES ('Daisy', 2, 'Poodle', 196, 1, TRUE, 1, 10);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Charlie', 3, 'Beagle', 5, 0, FALSE, 2, 30);
+VALUES ('Charlie', 3, 'Beagle', 31, 0, FALSE, 2, 30);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Molly', 6, 'Bulldog', 6, 1, TRUE, 2, 40);
+VALUES ('Molly', 6, 'Bulldog', 10, 1, TRUE, 2, 40);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Ladybird', 16, 'Georgia Bloodhound', 7, 0, FALSE, 3, 115);
+VALUES ('Ladybird', 16, 'Georgia Bloodhound', 45, 0, FALSE, 3, 115);
 
 INSERT INTO Dog (name, age, breed, breed_Id, sex, altered, size, weight_Lbs)
-VALUES ('Rika', 2, 'Australian Cattle Dog', 8, 1, TRUE, 2, 60);
+VALUES ('Rika', 2, 'Australian Cattle Dog', 21, 1, TRUE, 2, 60);
 
 ----DOG_PROFILES----
 INSERT INTO Dog_Profile (profile_Photo_Id, banner_Photo_Id, dog_Id, temperament, bio)

@@ -1,16 +1,9 @@
 package dogbook.controller;
 
+import dogbook.model.*;
 import dogbook.model.breedResponse.BreedEntry;
 import dogbook.model.breedResponse.BreedInfo;
-import dogbook.model.Dog;
-import dogbook.model.DogOwner;
-import dogbook.model.Photo;
-import dogbook.model.User;
-import dogbook.service.AuthenticatedUserService;
-import dogbook.service.DogOwnerService;
-import dogbook.service.DogService;
-import dogbook.service.PhotoService;
-import dogbook.service.UserService;
+import dogbook.service.*;
 import dogbook.enums.AccessLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,13 +25,11 @@ public class DogController {
     @Autowired
     DogService dogService;
     @Autowired
-    DogOwnerService dogOwnerService;
-    @Autowired
     UserService userService;
     @Autowired
-    PhotoService photoService;
-    @Autowired
     AuthenticatedUserService authenticatedUserService;
+    @Autowired
+    DogDogProfDTOService dogDogProfDTOService;
 
     @GetMapping("/api/v1/dogs")
     public ResponseEntity<List<Dog>> getAllDogsByUserId(@RequestParam(required = false) Integer ownerId) {
@@ -162,5 +153,10 @@ public class DogController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("api/v1/dogs/dogcircus")
+    public ResponseEntity<List<DogDogProfDTO>> getDogCircus(){
+        return ResponseEntity.ok(dogDogProfDTOService.getDogsForCircus());
     }
 }
