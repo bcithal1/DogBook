@@ -114,4 +114,34 @@ public class ChallengeService {
         }
         return null;
     }
+
+    public Challenge assignChallengeToAnyUser(Integer challengeId, Integer userId) {
+
+        Optional<User> userFound = userRepo.findById(userId);
+        Optional<Challenge> challengeFound = challengeRepo.findById(challengeId);
+        // make sure same challenge can only be assigned to the same user only once
+        List<UserChallengeRelation> relationFound = userChallengeRelationRepo.findAll().stream()
+                .filter(relation -> relation.getUser().getId().equals(userId) && relation.getChallenge().getId().equals(challengeId))
+                .collect(Collectors.toList());
+
+        if (userFound.isPresent() && challengeFound.isPresent() && relationFound.isEmpty()) {
+
+            UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null);
+
+            return userChallengeRelationRepo.save(relation).getChallenge();
+        }
+        return null;
+
+
+    }
+
+    public List<Challenge> getChallengesByEventId(Integer eventId) {
+
+        List<Challenge> challengeListFound = challengeRepo.findByEventId(eventId);
+
+        if(!challengeListFound.isEmpty()){
+            return challengeListFound;
+        }
+        return null;
+    }
 }

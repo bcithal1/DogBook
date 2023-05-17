@@ -1,5 +1,7 @@
 package dogbook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -14,10 +16,12 @@ public class UserChallengeRelation {
 
     @ManyToOne
     @JoinColumn(name="userId")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name="challengeId")
+    @JsonIgnore
     private Challenge challenge;
 
 
