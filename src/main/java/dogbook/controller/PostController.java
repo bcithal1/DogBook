@@ -56,7 +56,7 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/v1/addLike/{postId}")
+    @PostMapping("/api/v1/addLike/{postId}")
     public ResponseEntity<Void> addLike(@PathVariable Integer postId) {
         postService.addLike(postId);
         return ResponseEntity.noContent().build();

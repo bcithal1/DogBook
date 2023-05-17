@@ -11,5 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepo extends JpaRepository <Post, Integer> {
-    Optional<List<Post>> findByAuthorId(Integer AuthorId);
+    Optional<List<Post>> findByAuthorId(Integer authorId);
+
+    Optional<Post> findByPostId (Integer postId);
+
+
 }
