@@ -144,4 +144,14 @@ public class ChallengeService {
         }
         return null;
     }
+
+    public List<UserChallengeRelation> getChallengesUserRelationByUserId(Integer userId) {
+
+        List<UserChallengeRelation> userChallengeRelationsFound = userChallengeRelationRepo.findByUserId(userId);
+
+        if(!userChallengeRelationsFound.isEmpty()){
+            return userChallengeRelationsFound;
+        }
+        return null;
+    }
 }

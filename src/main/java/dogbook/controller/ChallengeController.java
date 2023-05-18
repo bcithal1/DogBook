@@ -2,6 +2,7 @@ package dogbook.controller;
 
 import
         dogbook.model.Challenge;
+import dogbook.model.UserChallengeRelation;
 import dogbook.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,4 +77,10 @@ public class ChallengeController {
         return response==null? new ResponseEntity<>(HttpStatus.NO_CONTENT): ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("/api/v1/challenges/challengeUserRelation/{userId}")
+    public ResponseEntity<List<UserChallengeRelation>> getChallengesUserRelationByUserId(@PathVariable Integer userId){
+        List<UserChallengeRelation> response = challengeService.getChallengesUserRelationByUserId(userId);
+        return response==null? new ResponseEntity<>(HttpStatus.NO_CONTENT): ResponseEntity.ok(response);
+    }
 }
