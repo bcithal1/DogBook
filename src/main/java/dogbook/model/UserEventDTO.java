@@ -23,6 +23,8 @@ public class UserEventDTO {
     private EventInvitedStatus eventInvitedStatus;
 
 
+
+
     public UUID getId() {
         return id;
     }

@@ -176,3 +176,6 @@ VALUES (4, 7, 1);
 
 INSERT INTO Dog_Owner (user_Id, dog_Id, access_Level)
 VALUES (6, 8, 0);
+
+INSERT INTO EVENT (EVENT_DESCRIPTION, EVENT_TITLE, HOST_ID, DATE, LAT, LNG, EVENT_LOCATION, TIME) VALUES ('walk the dog in a mexican restaurant', 'Taco Tuseday', 1,  DATE '2015-05-27', 41.12401088661321, -95.95593537227471, '12510 S 29th Ave, Bellevue, NE 68123', TIME '19:35');
+INSERT INTO EVENT (EVENT_DESCRIPTION, EVENT_TITLE, HOST_ID, DATE, lat, lng, EVENT_LOCATION, TIME) VALUES ('have class with your favorite pet', 'Campus dog meet', 2,  DATE '2015-05-26', 41.25884390727145, -96.01092462535927, '6001 Dodge St, Omaha, NE 68182', TIME '12:30');

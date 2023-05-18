@@ -19,5 +19,6 @@ public interface EventUserMapper {
     @Mapping(target = "eventAccessLevel", source="eventUserRelations.eventaccessLevel")
     @Mapping(target = "eventInvitedStatus", source = "eventUserRelations.eventInvitedStatus")
 
+
     UserEventDTO mapFromUserEventAndEventUserRelations(User user, Event event, EventUserRelations eventUserRelations);
 }

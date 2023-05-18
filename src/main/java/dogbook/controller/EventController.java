@@ -1,5 +1,6 @@
 package dogbook.controller;
 
+import dogbook.model.Dog;
 import dogbook.model.Event;
 import dogbook.model.EventUserRelations;
 import dogbook.model.User;
@@ -91,6 +92,13 @@ public class EventController {
     @DeleteMapping("/api/v1/event/delete/{eventId}")
     public ResponseEntity<Event> deleteEventById(@PathVariable Integer eventId){
         Event response = eventService.deleteEventById(eventId);
+        return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/api/v1/event/getAllDogsInEvent/{eventId}")
+    public ResponseEntity<List<Dog>> getAllDogsInEvent(@PathVariable Integer eventId){
+        List<Dog> response = eventService.getAllDogsInEvent(eventId);
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 

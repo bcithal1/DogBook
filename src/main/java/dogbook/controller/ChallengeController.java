@@ -50,7 +50,7 @@ public class ChallengeController {
 
 
     @PutMapping("/api/v1/challenges/assign/{challengeId}")
-    public ResponseEntity<Challenge> assignChallengeToUser(@PathVariable Integer challengeId){
+    public ResponseEntity<Challenge> assignChallengeToCurrentUser(@PathVariable Integer challengeId){
         Challenge response = challengeService.assignChallengeToUser(challengeId);
         return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
     }
@@ -60,6 +60,20 @@ public class ChallengeController {
     public ResponseEntity<Challenge> updateUserChallengeStatus(@PathVariable Integer challengeId, @PathVariable Integer userId, @PathVariable String statusCode, @PathVariable String completedDate){
         Challenge response = challengeService.updateUserChallengeStatus(challengeId, userId, statusCode, LocalDate.parse(completedDate));
         return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/api/v1/challenges/assign/{challengeId}/{userId}")
+    public ResponseEntity<Challenge> assignChallengeToAnyUser(@PathVariable Integer challengeId,@PathVariable Integer userId ){
+        Challenge response = challengeService.assignChallengeToAnyUser(challengeId, userId);
+        return response==null? new ResponseEntity<>(HttpStatus.NOT_FOUND): ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/api/v1/challenges/eventId/{eventId}")
+    public ResponseEntity<List<Challenge>> getChallengesByEventId(@PathVariable Integer eventId){
+        List<Challenge> response = challengeService.getChallengesByEventId(eventId);
+        return response==null? new ResponseEntity<>(HttpStatus.NO_CONTENT): ResponseEntity.ok(response);
     }
 
 }

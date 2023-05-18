@@ -26,6 +26,9 @@ public class User {
     private String email;
     @Column
     private String phoneNumber;
+
+
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -112,4 +115,6 @@ public class User {
     public void setPhotoIds(List<Integer> photoIds) {
         this.photoIds = photoIds;
     }
+
+
 }

@@ -21,6 +21,18 @@ public class Challenge {
 
     @Column
     private String name;
+    @Column
+    private String description;
+
+    @Column
+    private Double price;
+
+    @Column
+    private Integer eventId;
+
+
+    @Column
+    private String rewardImage;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -76,5 +88,43 @@ public class Challenge {
         this.targetDate = targetDate;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getRewardImage() {
+        return rewardImage;
+    }
+
+    public void setRewardImage(String rewardImage) {
+        this.rewardImage = rewardImage;
+    }
+
+    public Set<UserChallengeRelation> getUserChallengeRelations() {
+        return userChallengeRelations;
+    }
+
+    public void setUserChallengeRelations(Set<UserChallengeRelation> userChallengeRelations) {
+        this.userChallengeRelations = userChallengeRelations;
+    }
 }
