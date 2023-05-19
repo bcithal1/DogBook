@@ -15,5 +15,7 @@ public interface PostRepo extends JpaRepository <Post, Integer> {
 
     Optional<Post> findByPostId (Integer postId);
 
+    Optional<List<Post>> findByCommentId(Integer commentId);
+
 
 }
