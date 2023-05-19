@@ -137,12 +137,21 @@ public class PostService {
     public Post addComment(Integer postId, Post comment) {
         Optional<Post> post = postRepo.findById(postId);
         Integer currentUser = authenticatedUserService.getId();
-
-        comment.setCommentId(postId);
         comment.setDateTime(new Date());
+        comment.setAuthorId(authenticatedUserService.getId());
+        comment.setCommentId(postId);
         postRepo.save(comment);
 
         post.get().setCommentCount(post.get().getCommentCount() == null ? 1 : post.get().getCommentCount() + 1);
         return postRepo.save(post.get());
+    }
+
+    public List<Post> getPostsByCommentId(Integer commentId){
+        Optional <List<Post>> comments = postRepo.findByCommentId(commentId);
+        if(comments.isPresent()){
+            return comments.get();
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }
     }
 }
