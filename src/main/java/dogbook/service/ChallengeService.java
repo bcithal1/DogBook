@@ -91,7 +91,7 @@ public class ChallengeService {
 
         if (userFound.isPresent() && challengeFound.isPresent() && relationFound.isEmpty()) {
 
-            UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null);
+            UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null, challengeFound.get().getRewardImage());
 
             return userChallengeRelationRepo.save(relation).getChallenge();
         }
@@ -126,7 +126,7 @@ public class ChallengeService {
 
         if (userFound.isPresent() && challengeFound.isPresent() && relationFound.isEmpty()) {
 
-            UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null);
+            UserChallengeRelation relation = new UserChallengeRelation(userFound.get(), challengeFound.get(), "0", null, challengeFound.get().getRewardImage());
 
             return userChallengeRelationRepo.save(relation).getChallenge();
         }
