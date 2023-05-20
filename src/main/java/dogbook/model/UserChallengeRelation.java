@@ -29,16 +29,19 @@ public class UserChallengeRelation {
 
     private LocalDate completedDate;
 
+    private String rewardPhoto;
+
 
     public UserChallengeRelation() {
     }
 
-    public UserChallengeRelation(User user, Challenge challenge, String statusCode, LocalDate completedDate) {
+    public UserChallengeRelation(User user, Challenge challenge, String statusCode, LocalDate completedDate, String rewardPhoto) {
 
         this.user = user;
         this.challenge = challenge;
         this.statusCode = statusCode;
         this.completedDate = completedDate;
+        this.rewardPhoto = rewardPhoto;
     }
 
     public Integer getId() {
@@ -79,5 +82,13 @@ public class UserChallengeRelation {
 
     public void setCompletedDate(LocalDate completedDate) {
         this.completedDate = completedDate;
+    }
+
+    public String getRewardPhoto() {
+        return rewardPhoto;
+    }
+
+    public void setRewardPhoto(String rewardPhoto) {
+        this.rewardPhoto = rewardPhoto;
     }
 }
