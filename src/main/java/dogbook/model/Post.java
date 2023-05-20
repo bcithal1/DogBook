@@ -3,6 +3,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -26,6 +27,16 @@ public class Post {
 
     @Column
     private String message;
+
+    @ElementCollection
+    @CollectionTable(name = "post_tagged_users", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "user_id")
+    private List<Integer> taggedUserId;
+
+    @ElementCollection
+    @CollectionTable(name = "post_tagged_dogs", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "dog_id")
+    private List<Integer> taggedDogId;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -86,5 +97,21 @@ public class Post {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public List<Integer> getTaggedUserId() {
+        return taggedUserId;
+    }
+
+    public void setTaggedUserId(List<Integer> taggedUserId) {
+        this.taggedUserId = taggedUserId;
+    }
+
+    public List<Integer> getTaggedDogId() {
+        return taggedDogId;
+    }
+
+    public void setTaggedDogId(List<Integer> taggedDogId) {
+        this.taggedDogId = taggedDogId;
     }
 }

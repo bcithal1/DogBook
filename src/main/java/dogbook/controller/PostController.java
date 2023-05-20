@@ -27,6 +27,12 @@ public class PostController {
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
     }
 
+    @GetMapping("/api/v1/posts/user/{userId}")
+    public ResponseEntity<List<Post>> getAllPostsByUserId(@PathVariable Integer userId) {
+        List<Post> response = postService.getPostByUserId(userId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/api/v1/posts/likes")
     public ResponseEntity<List<UserLikedPosts>> getLikesByUserId() {
         return postService.getLikesByUserID();
@@ -50,7 +56,7 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/v1/addLike/{postId}")
+    @PostMapping("/api/v1/addLike/{postId}")
     public ResponseEntity<Void> addLike(@PathVariable Integer postId) {
         postService.addLike(postId);
         return ResponseEntity.noContent().build();

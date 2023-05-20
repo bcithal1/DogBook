@@ -64,6 +64,10 @@ public class DogService {
         return breedClient.getBreedById(id);
     }
 
+    public List<Dog> getAllDogs(){
+        return dogRepo.findAll();
+    }
+
     @Transactional
     public Dog savePhoto(Photo photo, Dog dog){
         Photo savedPhoto = photoRepo.save(photo);

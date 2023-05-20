@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -34,18 +36,24 @@ public class PostService {
 
     public Post createPost(Post post) {
         post.setDateTime(new Date());
+        post.setAuthorId(authenticatedUserService.getId());
         return postRepo.save(post);
     }
 
     public Post getPostById(Integer postId) {
         Post post = null;
-
         if (postRepo.findById(postId).isPresent())
             post = postRepo.findById(postId).get();
 
         return post;
     }
 
+    public List<Post> getPostByUserId(Integer userId) {
+
+        if (postRepo.findByAuthorId(userId).isPresent()) {
+            return postRepo.findByAuthorId(userId).get();
+        } else {throw new HttpClientErrorException(HttpStatus.NOT_FOUND);}
+    }
 
     public Post updatePostById(Integer postId, Post post) {
         Optional<Post> postFound = postRepo.findById(postId);
@@ -104,6 +112,7 @@ public class PostService {
         userLikedPostsRepo.save(new UserLikedPosts(currentUser, postId));
     }
 
+    @Transactional
     public void removeLike(Integer postId) {
         Optional<Post> currentPost = postRepo.findById(postId);
         Integer currentUser = authenticatedUserService.getId();
@@ -111,21 +120,19 @@ public class PostService {
         if (currentPost.get().getAuthorId().equals(currentUser)) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
+        Optional<UserLikedPosts> likedPost = userLikedPostsRepo.findByPostId(postId);
+        Optional<Post> post = postRepo.findByPostId(postId);
 
-        List<UserLikedPosts> userLikedPosts = userLikedPostsRepo.findByUserId(currentUser);
-
-        for (UserLikedPosts post : userLikedPosts) {
-            if (!post.getPostId().equals(postId)) {
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
-            }
+        if(likedPost.isPresent()){
+            post.get().setLikeCount(post.get().getLikeCount() == null ? null : post.get().getLikeCount() - 1);
+            postRepo.save(post.get());
+            userLikedPostsRepo.delete(likedPost.get());
+        } else {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
-        Optional<Post> post = postRepo.findById(postId);
-        post.get().setLikeCount(post.get().getLikeCount() == null ? null : post.get().getLikeCount() - 1);
-        postRepo.save(post.get());
 
-        userLikedPostsRepo.deleteById(postId);
+
     }
-
 
     public Post addComment(Integer postId, Post comment) {
         Optional<Post> post = postRepo.findById(postId);
