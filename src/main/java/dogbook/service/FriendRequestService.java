@@ -26,6 +26,9 @@ public class FriendRequestService {
     UserService userService;
 
     @Autowired
+    FriendshipService friendshipService;
+
+    @Autowired
     UserProfileService userProfileService;
 
     @Autowired
@@ -65,7 +68,8 @@ public class FriendRequestService {
             Integer senderId = friendRequest.getSenderId();
             User user = userService.getUserById(senderId).get();
             UserProfile userProfile = userProfileService.getUserProfile(senderId);
-            FriendRequestWithUser tmp = new FriendRequestWithUser(friendRequest, user, userProfile);
+            List<User> mutualFriends = friendshipService.getMutualFriendList(senderId);
+            FriendRequestWithUser tmp = new FriendRequestWithUser(friendRequest, user, userProfile, mutualFriends);
             friendRequestWithUserList.add(tmp);
         }
         return friendRequestWithUserList;

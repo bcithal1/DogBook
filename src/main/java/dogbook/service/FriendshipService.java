@@ -90,4 +90,39 @@ public class FriendshipService {
         return userWithDogsList;
     }
 
+    public List<User> getMutualFriendList(Integer targetUserId){
+        Integer currentUser = authenticatedUserService.getId();
+        List<Integer> userAFriends = new ArrayList<>();
+        List<Integer> userBFriends = new ArrayList<>();
+        List<User> mutualFriendList = new ArrayList<>();
+        List<Friendship> tmpArr = new ArrayList<>();
+
+        tmpArr = friendshipRepo.findByPrimaryUserId(currentUser);
+        for (Friendship friendship : tmpArr){
+         userAFriends.add(friendship.getSecondaryUserId());
+        }
+
+        tmpArr = friendshipRepo.findBySecondaryUserId(currentUser);
+        for (Friendship friendship : tmpArr){
+            userAFriends.add(friendship.getPrimaryUserId());
+        }
+
+        tmpArr = friendshipRepo.findByPrimaryUserId(targetUserId);
+        for (Friendship friendship : tmpArr){
+            userBFriends.add(friendship.getSecondaryUserId());
+        }
+
+        tmpArr = friendshipRepo.findBySecondaryUserId(targetUserId);
+        for (Friendship friendship : tmpArr){
+            userBFriends.add(friendship.getPrimaryUserId());
+        }
+
+        userAFriends.retainAll(userBFriends);
+        for (Integer userId : userAFriends){
+            mutualFriendList.add(userService.getUserById(userId).get());
+        }
+
+        return mutualFriendList;
+    }
+
 }
