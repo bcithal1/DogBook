@@ -73,8 +73,10 @@ public class UserController {
     }
 
     @PostMapping("/api/v1/user/photos")
-    public void uploadPhoto(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Integer> uploadPhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Photo photo = new Photo(file);
         userService.savePhoto(photo);
+        return ResponseEntity.ok(photo.getId());
     }
+
 }

@@ -37,10 +37,20 @@ public class DogFriendshipService {
         if (targetDog.isPresent()) {
             friendList.addAll(dogFriendshipRepo.findByPrimaryUserId(dogId));
             friendList.addAll(dogFriendshipRepo.findBySecondaryUserId(dogId));
-            return friendList;
+            return sortFriendList(dogId, friendList);
         } else {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    public List<List<DogFriendship>> getFriendsListForListOfDogs(List<Dog> dogs) {
+        List<List<DogFriendship>> allFriendsLists = new ArrayList<>();
+
+        for (Dog dog : dogs) {
+            allFriendsLists.add(getFriendsList(dog.getId()));
+        }
+
+        return allFriendsLists;
     }
 
     public void endFriendship(Integer friendshipId) {
@@ -67,5 +77,16 @@ public class DogFriendshipService {
                 return true;
         }
         return false;
+    }
+
+    private List<DogFriendship> sortFriendList(Integer mainDog, List<DogFriendship> dogFriendshipList){
+        for (DogFriendship friendship : dogFriendshipList){
+            if (friendship.getPrimaryUserId() != mainDog){
+                Integer tmpId = friendship.getPrimaryUserId();
+                friendship.setPrimaryUserId(friendship.getSecondaryUserId());
+                friendship.setSecondaryUserId(friendship.getSecondaryUserId());
+            }
+        }
+        return dogFriendshipList;
     }
 }

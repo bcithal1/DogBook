@@ -1,5 +1,6 @@
 package dogbook.controller;
 
+import dogbook.model.DogProfile;
 import dogbook.model.UserProfile;
 import dogbook.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserProfileController {
         return userProfileService.getUserProfilePhotoByUserId(userId);
     }
 
-    //update userProfile
+    @PutMapping("/api/v1/users/profile/{userId}")
+    public ResponseEntity<UserProfile> updateUserProfile(@PathVariable Integer userId, @RequestBody UserProfile userProfile){
+        return ResponseEntity.ok(userProfileService.updateUserProfile(userId, userProfile));
+    }
 
 }

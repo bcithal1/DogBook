@@ -1,15 +1,13 @@
 package dogbook.controller;
 
+import dogbook.model.Dog;
 import dogbook.model.DogFriendship;
 import dogbook.model.Friendship;
 import dogbook.service.DogFriendshipService;
 import dogbook.service.DogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,10 +25,14 @@ public class DogFriendController {
         return ResponseEntity.ok(dogFriendshipService.getFriendsList(dogId));
     }
 
+    @GetMapping("api/v1/puppypals/multidog")
+    public ResponseEntity<List<List<DogFriendship>>> getFriendListMultiDog(@RequestParam List<Dog> dogList){
+        return ResponseEntity.ok(dogFriendshipService.getFriendsListForListOfDogs(dogList));
+    }
+
     @DeleteMapping("api/v1/puppypals/{friendshipId}")
-    public ResponseEntity<Friendship> removeFriend(@PathVariable Integer friendshipId){
+    public ResponseEntity<Friendship> removeFriend(@PathVariable Integer friendshipId) {
         dogFriendshipService.endFriendship(friendshipId);
         return ResponseEntity.ok().build();
     }
-
 }
