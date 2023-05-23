@@ -3,7 +3,6 @@ package dogbook.service;
 import dogbook.model.Dog;
 import dogbook.model.DogFriendship;
 import dogbook.model.DogOwner;
-import dogbook.model.Friendship;
 import dogbook.repository.DogFriendshipRepo;
 import dogbook.repository.DogOwnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,10 +80,10 @@ public class DogFriendshipService {
 
     private List<DogFriendship> sortFriendList(Integer mainDog, List<DogFriendship> dogFriendshipList){
         for (DogFriendship friendship : dogFriendshipList){
-            if (friendship.getPrimaryUserId() != mainDog){
+            if (friendship.getPrimaryUserId().equals(mainDog)){
                 Integer tmpId = friendship.getPrimaryUserId();
                 friendship.setPrimaryUserId(friendship.getSecondaryUserId());
-                friendship.setSecondaryUserId(friendship.getSecondaryUserId());
+                friendship.setSecondaryUserId(tmpId);
             }
         }
         return dogFriendshipList;

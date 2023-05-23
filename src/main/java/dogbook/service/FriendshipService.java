@@ -59,7 +59,7 @@ public class FriendshipService {
 
     public List<UserWithDogs> getFriendsofFriendsIds() {
         Integer currentUser = authenticatedUserService.getId();
-        List<Friendship> userFriendList = getFriendsList(1);
+        List<Friendship> userFriendList = getFriendsList(currentUser);
         List<Friendship> masterList = new ArrayList<>();
         Set<Integer> uniqueUserIds = new HashSet<>();
         List<UserWithDogs> userWithDogsList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package dogbook.controller;
 
 import dogbook.model.Dog;
+import dogbook.model.DogFriendRequest;
 import dogbook.model.DogFriendship;
 import dogbook.model.Friendship;
 import dogbook.service.DogFriendshipService;
@@ -25,7 +26,7 @@ public class DogFriendController {
         return ResponseEntity.ok(dogFriendshipService.getFriendsList(dogId));
     }
 
-    @GetMapping("api/v1/puppypals/multidog")
+    @PostMapping("api/v1/puppypals/multidog")
     public ResponseEntity<List<List<DogFriendship>>> getFriendListMultiDog(@RequestParam List<Dog> dogList){
         return ResponseEntity.ok(dogFriendshipService.getFriendsListForListOfDogs(dogList));
     }

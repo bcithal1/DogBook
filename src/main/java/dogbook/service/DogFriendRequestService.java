@@ -6,7 +6,6 @@ import dogbook.repository.DogFriendshipRepo;
 import dogbook.repository.DogOwnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -29,6 +28,16 @@ public class DogFriendRequestService {
 
     @Autowired
     DogService dogService;
+
+    public List<List<DogFriendRequest>> getMultiPuppyPalRequests(List<Dog> dogList) {
+        List<List<DogFriendRequest>> allRequestList = new ArrayList<>();
+
+        for (Dog dog : dogList){
+            allRequestList.add(getReceivedRequestsByUserID(dog.getId()));
+        }
+
+        return allRequestList;
+    }
 
     public DogFriendRequest sendFriendRequest(Integer senderId, Integer recipientId) {
 
@@ -102,7 +111,6 @@ public class DogFriendRequestService {
     }
 
     private boolean validateRequest(Integer senderId, Integer receiverId) {
-        Integer currentUser = authenticatedUserService.getId();
 
         //Hard stops someone from having their dog friend themselves
         if (senderId.equals(receiverId))
