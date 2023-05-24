@@ -68,10 +68,15 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/v1/addComment/{postId}")
+    @PostMapping("/api/v1/addComment/{postId}")
     public ResponseEntity<Post> addComment(@PathVariable Integer postId, @RequestBody Post post) {
         Post response = postService.addComment(postId, post);
         return response==null? new ResponseEntity<>(HttpStatus.BAD_REQUEST): ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/api/v1/posts/comments/{commentId}")
+    public ResponseEntity<List<Post>> getPostsByCommentId(@PathVariable Integer commentId){
+        return ResponseEntity.ok(postService.getPostsByCommentId(commentId));
     }
 }
 

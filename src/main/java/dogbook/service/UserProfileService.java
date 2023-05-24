@@ -49,9 +49,16 @@ public class UserProfileService {
         }
     }
 
-    //update userProfile
+    public UserProfile updateUserProfile(Integer userId, UserProfile updatedProfile){
+        Optional<UserProfile> userProfile = userProfileRepo.findById(userId);
+        if (userProfile.isPresent()) {
+            userProfileRepo.save(updatedProfile);
+            return updatedProfile;
+        }else{
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "User profile not found");
+        }
+    }
 
-    //delete userProfile
 
     public ResponseEntity<byte[]> getUserProfilePhotoByPhotoId(Integer photoId) {
         Optional<Photo> photo = photoService.getPhotoById(photoId);

@@ -51,7 +51,6 @@ public class DogController {
         return ResponseEntity.ok(dogService.getAllDogsByUserId(authenticatedUserService.getId()));
     }
 
-
     @GetMapping("/api/v1/dogs/{id}")
     public ResponseEntity<Dog> getDogById(@PathVariable Integer id) {
         Optional<Dog> dog = dogService.getDogById(id);

@@ -1,9 +1,6 @@
 package dogbook.controller;
 
-import dogbook.model.DogFriendRequest;
-import dogbook.model.DogFriendship;
-import dogbook.model.FriendRequest;
-import dogbook.model.Friendship;
+import dogbook.model.*;
 import dogbook.service.DogFriendRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +17,11 @@ public class DogFriendRequestController {
     public ResponseEntity<DogFriendRequest> sendDogFriendRequest(@PathVariable Integer recipientId,
                                                               @PathVariable Integer senderId) {
         return ResponseEntity.ok(dogFriendRequestService.sendFriendRequest(recipientId, senderId));
+    }
+
+    @PostMapping("api/v1/puppypalreqs/multidog")
+    public ResponseEntity<List<List<DogFriendRequest>>> getFriendListMultiDog(@RequestParam List<Dog> dogList){
+        return ResponseEntity.ok(dogFriendRequestService.getMultiPuppyPalRequests(dogList));
     }
 
     @GetMapping("/api/v1/puppypals/sent/{dogId}")
