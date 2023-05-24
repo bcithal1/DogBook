@@ -44,7 +44,7 @@ public class UserService {
     public User createUser(User user) {
         Friendship defaultFriendship = new Friendship();
         userRepo.save(user);
-        defaultFriendship.setPrimaryUserId(6);
+        defaultFriendship.setPrimaryUserId(1);
         defaultFriendship.setSecondaryUserId(user.getId());
         defaultFriendship.setCreatedDate(new Date());
         friendshipRepo.save(defaultFriendship);
