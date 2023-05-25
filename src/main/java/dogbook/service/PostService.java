@@ -56,8 +56,8 @@ public class PostService {
         } else {throw new HttpClientErrorException(HttpStatus.NOT_FOUND);}
     }
 
-    public List<Post> getTaggedPosts(Integer userId){
-        List<Post> tmpArr = postRepo.findPostsByTaggedUserId(userId);
+    public List<Post> getTaggedPosts(Integer dogId){
+        List<Post> tmpArr = postRepo.findPostsByTaggedDogId(dogId);
         return tmpArr;
     }
 

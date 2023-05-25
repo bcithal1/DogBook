@@ -33,9 +33,9 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/api/v1/taggedposts/user/{userId}")
-    public ResponseEntity<List<Post>> getTaggedPosts(@PathVariable Integer userId) {
-        List<Post> response = postService.getTaggedPosts(userId);
+    @GetMapping("/api/v1/taggedposts/dog/{dogId}")
+    public ResponseEntity<List<Post>> getTaggedPosts(@PathVariable Integer dogId) {
+        List<Post> response = postService.getTaggedPosts(dogId);
         return ResponseEntity.ok(response);
     }
 

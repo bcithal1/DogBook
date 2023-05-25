@@ -21,4 +21,7 @@ public interface PostRepo extends JpaRepository <Post, Integer> {
     @Query("SELECT p FROM Post p WHERE :userId IN (SELECT tu FROM p.taggedUserId tu)")
     List<Post> findPostsByTaggedUserId(@Param("userId") Integer userId);
 
+    @Query("SELECT p FROM Post p WHERE :dogId IN (SELECT tu FROM p.taggedDogId tu)")
+    List<Post> findPostsByTaggedDogId(@Param("dogId") Integer dogId);
+
 }
