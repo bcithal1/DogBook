@@ -27,6 +27,9 @@ public class FriendshipService {
     DogService dogService;
 
     @Autowired
+    DogOwnerService dogOwnerService;
+
+    @Autowired
     AuthenticatedUserService authenticatedUserService;
 
     public List<Friendship> getFriendsList(Integer userId) {
@@ -59,15 +62,19 @@ public class FriendshipService {
 
     public List<UserWithDogs> getFriendsofFriendsIds() {
         Integer currentUser = authenticatedUserService.getId();
+        User currentUserObject = userService.getUserById(currentUser).get();
         List<Friendship> userFriendList = getFriendsList(currentUser);
         List<Friendship> masterList = new ArrayList<>();
         Set<Integer> uniqueUserIds = new HashSet<>();
         List<UserWithDogs> userWithDogsList = new ArrayList<>();
 
+        // Retrieve friends of friends
         for (Friendship friendship : userFriendList) {
             masterList.addAll(getFriendsList(friendship.getSecondaryUserId()));
             masterList.addAll(getFriendsList(friendship.getPrimaryUserId()));
         }
+
+        // Retrieve unique user IDs
         for (Friendship friendship : masterList) {
             Integer primaryId = friendship.getPrimaryUserId();
             Integer secondaryId = friendship.getSecondaryUserId();
@@ -81,15 +88,18 @@ public class FriendshipService {
             }
         }
 
+        // Fetch dogs for each user (including current user)
         for (Integer userId : uniqueUserIds) {
             User user = userService.getUserById(userId).get();
             List<Dog> dogs = dogService.getAllDogsByUserId(userId);
             userWithDogsList.add(new UserWithDogs(user, dogs));
         }
 
+        List<Dog> currentUserDogs = dogService.getAllDogsByUserId(currentUser);
+        userWithDogsList.add(new UserWithDogs(currentUserObject, currentUserDogs));
+
         return userWithDogsList;
     }
-
     public List<User> getMutualFriendList(Integer targetUserId){
         Integer currentUser = authenticatedUserService.getId();
         List<Integer> userAFriends = new ArrayList<>();
