@@ -33,6 +33,12 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/api/v1/taggedposts/user/{userId}")
+    public ResponseEntity<List<Post>> getTaggedPosts(@PathVariable Integer userId) {
+        List<Post> response = postService.getTaggedPosts(userId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/api/v1/posts/likes")
     public ResponseEntity<List<UserLikedPosts>> getLikesByUserId() {
         return postService.getLikesByUserID();

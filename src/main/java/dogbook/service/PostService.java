@@ -49,10 +49,16 @@ public class PostService {
     }
 
     public List<Post> getPostByUserId(Integer userId) {
-
         if (postRepo.findByAuthorId(userId).isPresent()) {
-            return postRepo.findByAuthorId(userId).get();
+            List<Post> tmpArr = postRepo.findByAuthorId(userId).get();
+            tmpArr.addAll(postRepo.findPostsByTaggedUserId(userId));
+            return tmpArr;
         } else {throw new HttpClientErrorException(HttpStatus.NOT_FOUND);}
+    }
+
+    public List<Post> getTaggedPosts(Integer userId){
+        List<Post> tmpArr = postRepo.findPostsByTaggedUserId(userId);
+        return tmpArr;
     }
 
     public Post updatePostById(Integer postId, Post post) {
